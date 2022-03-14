@@ -1,18 +1,18 @@
 {
   "env": {
     "browser": true,
-    "commonjs": true,
-    "es2021": true
+    "commonjs": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": "latest"
+    "ecmaVersion": 2020
   },
   "plugins": ["react"],
   "rules": {
-    "quotes": ["error", "double", { "allowTemplateLiterals": true }]
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
