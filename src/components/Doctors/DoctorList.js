@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Segment } from "semantic-ui-react";
 import styled from "styled-components";
 

@@ -30,6 +30,7 @@ const TopDetails = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
 `;
+
 const BottomDetails = styled.div`
   flex: 2;
   padding-top: 10px;

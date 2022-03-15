@@ -6,8 +6,8 @@ import { getDoctors } from "api/doctors";
 const Doctors = () => {
   const [count, setCount] = useState(0);
   const [nextPage, setNextPage] = useState(0);
-  const [rows, setRows] = useState(undefined);
-  const [error, setError] = useState(undefined);
+  const [rows, setRows] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetch = async () => {
