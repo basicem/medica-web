@@ -30,7 +30,7 @@ const DoctorList = ({ count, nextPage, rows, error }) => {
     return (
       <StyledContainer>
         <Segment inverted color="red" secondary>
-          Doctors not find!
+          Doctors not found!
         </Segment>
       </StyledContainer>
     );

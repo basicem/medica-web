@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import DoctorList from "components/Doctors/DoctorList";
-import MyLoader from "components/MyLoader";
+import Loader from "components/Loader";
 import { getDoctors } from "api/doctors";
 
 const Doctors = () => {
@@ -9,7 +9,7 @@ const Doctors = () => {
   const [nextPage, setNextPage] = useState(0);
   const [rows, setRows] = useState(null);
   const [error, setError] = useState(null);
-  const [active, setActive] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -18,14 +18,14 @@ const Doctors = () => {
       setNextPage(response.nextPage);
       setRows(response.rows);
       setError(response.error);
-      setActive(false);
+      setLoading(false);
     };
 
     fetch();
   }, []);
   return (
     <div>
-      <MyLoader isActive={active} />
+      <Loader isActive={loading} />
       <DoctorList count={count} nextPage={nextPage} rows={rows} error={error} />
     </div>
   );
