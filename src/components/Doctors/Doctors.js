@@ -7,8 +7,8 @@ import getDoctors from "api/doctors";
 const Doctors = () => {
   const [count, setCount] = useState(0);
   const [nextPage, setNextPage] = useState(0);
-  const [rows, setRows] = useState(null);
-  const [blooper, setBlooper] = useState("");
+  const [rows, setRows] = useState();
+  const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,10 +18,8 @@ const Doctors = () => {
         setCount(response.count);
         setNextPage(response.nextPage);
         setRows(response.rows);
-        setBlooper(response.error);
-      } catch (error) {
-        console.log(error.response.data);
-        setBlooper(error.response.data.error);
+      } catch (e) {
+        setError("Unable to fetch doctors");
       } finally {
         setLoading(false);
       }
@@ -33,12 +31,7 @@ const Doctors = () => {
   return (
     <div>
       <Loader isActive={loading} />
-      <DoctorList
-        count={count}
-        nextPage={nextPage}
-        rows={rows}
-        error={blooper}
-      />
+      <DoctorList count={count} nextPage={nextPage} rows={rows} error={error} />
     </div>
   );
 };
