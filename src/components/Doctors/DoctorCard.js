@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 const DoctorImage = styled(Image)`
   background-color: #f1f1f1;
-  padding: 10px;
   flex: 2;
+  object-fit: cover;
 `;
 
 const DoctorDetails = styled.div`
@@ -19,7 +19,7 @@ const DoctorDetails = styled.div`
 
 const DoctorBox = styled.div`
   display: flex;
-  height: 300px;
+  height: 200px;
   margin: 1rem;
   border: 1px #f4f0ec solid;
   box-shadow: 5px 5px 5px #f4f0ec;
@@ -27,14 +27,11 @@ const DoctorBox = styled.div`
 
 const TopDetails = styled.div`
   flex: 4;
-  padding-top: 10px;
-  padding-bottom: 10px;
 `;
 
 const BottomDetails = styled.div`
   flex: 2;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
 `;
 
 const DoctorCard = ({ doctor }) => (
