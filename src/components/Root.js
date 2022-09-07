@@ -1,10 +1,12 @@
 import React from "react";
 
-import Doctors from "components/Doctors/Doctors";
+import HomeMenu from "components/HomeMenu"
+import Patients from "components/Patients/Patients";
 
 const Root = () => (
   <div>
-    <Doctors />
+    <HomeMenu />
+    <Patients />
   </div>
 );
 
