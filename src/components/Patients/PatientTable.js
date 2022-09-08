@@ -12,7 +12,7 @@ const StyledContainer = styled(Container)`
   margin: 1rem;
 `;
 
-const PatientTable = ({ count, nextPage, rows, error }) => {
+const PatientTable = ({ filters, onApply, count, nextPage, totalPages, rows, error }) => {
 
   if (error) {
     return (
@@ -27,7 +27,6 @@ const PatientTable = ({ count, nextPage, rows, error }) => {
   if (!rows) {
     return null;
   }
-
 
   return (
     <StyledContainer>

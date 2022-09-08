@@ -1,6 +1,6 @@
 import React from "react";
 
-import HomeMenu from "components/HomeMenu"
+import HomeMenu from "components/HomeMenu";
 import Patients from "components/Patients/Patients";
 
 const Root = () => (

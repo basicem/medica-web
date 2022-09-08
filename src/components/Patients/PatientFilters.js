@@ -9,7 +9,7 @@ const PatientFilters = ({ filters, onApply }) => {
     }
 
     const handleApply = () => {
-        onApply({ search })
+        onApply({ search});
     }
 
     return (
