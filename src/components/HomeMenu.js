@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 
-const HomeMenu = ({ count, nextPage, rows, error }) => {
+const HomeMenu = () => {
   const [state, setState] = useState({ activeItem: 'patients' });
 
   const handleItemClick = (e, { name }) => {

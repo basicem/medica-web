@@ -15,8 +15,8 @@
     "quotes": ["error", "double", { "allowTemplateLiterals": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "linebreak-style": ["error", "windows"],
-    "no-restricted-imports": ["error", {
-      "patterns": [".*"]
-    }],
+    // "no-restricted-imports": ["error", {
+    //   "patterns": [".*"]
+    // }],
   }
 }

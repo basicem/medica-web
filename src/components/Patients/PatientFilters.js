@@ -9,11 +9,13 @@ const PatientFilters = ({ filters, onApply }) => {
     }
 
     const handleApply = () => {
-        onApply({ search});
+        onApply({ search });
     }
 
     return (
-        <Input onChange={handleChangeSearch} action={{color: 'teal', content: 'Search', icon: 'search', onClick: handleApply}} fluid icon='users' iconPosition='left' placeholder='Search users...' />
+        <Input onChange={handleChangeSearch} 
+        action={{color: 'teal', content: 'Search', icon: 'search', onClick: handleApply}} 
+        fluid icon='users' iconPosition='left' placeholder='Search users...' />
     )
 }
 export default PatientFilters;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Header, Pagination, Icon, Divider } from "semantic-ui-react";
+import { Button, Container, Pagination, Icon, Divider } from "semantic-ui-react";
 import styled from "styled-components";
 
 import Loader from "components/Loader";
@@ -21,6 +21,10 @@ const StyledTopContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   padding: 1rem 6rem 1rem 6rem;
+`;
+
+const StyledHeader = styled.h1`
+  margin:0
 `;
 
 
@@ -60,13 +64,13 @@ const Patients = () => {
   };
 
   const handlePageChange = (e, data) => {
-    setFilters({ search: "", page: data.activePage, pageSize: filters.pageSize });
+    setFilters({ ...filters, page: data.activePage });
   };
 
   return (
     <div>
       <StyledTopContainer>
-        <Header as="h1" style={{margin:0}}>Patients</Header>
+        <StyledHeader>Patients</StyledHeader>
         <Button size="small">
           <Icon name='plus square outline' />
           Add Patient
@@ -76,7 +80,7 @@ const Patients = () => {
         <Divider/>
         <Loader isActive={loading} />
         <PatientFilters filters={filters} onApply={handleApplyFilters} />
-        <PatientTable filters={filters} onApply={handleApplyFilters} count={count} nextPage={nextPage} totalPages={totalPages} rows={rows} error={error} />
+        <PatientTable rows={rows} error={error} />
         <Pagination onPageChange={handlePageChange} activePage={filters.page} totalPages={totalPages} />
       </StyledContainer>
     </div>

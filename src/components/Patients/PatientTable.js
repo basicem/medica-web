@@ -1,6 +1,5 @@
 import React from 'react'
-import { Table } from 'semantic-ui-react'
-import { Container, Segment } from "semantic-ui-react";
+import { Message, Table, Container, Segment } from 'semantic-ui-react'
 import styled from "styled-components";
 
 import PatientRow from "components/Patients/PatientRow";
@@ -12,8 +11,7 @@ const StyledContainer = styled(Container)`
   margin: 1rem;
 `;
 
-const PatientTable = ({ filters, onApply, count, nextPage, totalPages, rows, error }) => {
-
+const PatientTable = ({ rows, error }) => {
   if (error) {
     return (
       <StyledContainer>
@@ -24,8 +22,8 @@ const PatientTable = ({ filters, onApply, count, nextPage, totalPages, rows, err
     );
   }
 
-  if (!rows) {
-    return null;
+  if(rows === null) {
+    return <Message>Patients not found!</Message>
   }
 
   return (
@@ -42,7 +40,7 @@ const PatientTable = ({ filters, onApply, count, nextPage, totalPages, rows, err
         </Table.Header>
 
         <Table.Body>
-          {rows.map((p) => (
+          {rows?.map((p) => (
             <PatientRow key={p.id} patient={p}/>
           ))}
         </Table.Body>
