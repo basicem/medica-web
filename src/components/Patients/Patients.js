@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Pagination, Icon, Divider } from "semantic-ui-react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import Loader from "components/Loader";
-import getPatients from "api/patients";
+import {getPatients} from "api/patients";
 import PatientTable from "components/Patients/PatientTable";
 import { PAGINATION } from "utils/constants";
 import PatientFilters from "components/Patients/PatientFilters";
@@ -41,6 +42,8 @@ const Patients = () => {
     pageSize: PAGINATION.PAGE_SIZE,
   });
 
+  let navigate = useNavigate();
+
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -71,7 +74,7 @@ const Patients = () => {
     <div>
       <StyledTopContainer>
         <StyledHeader>Patients</StyledHeader>
-        <Button size="small">
+        <Button size="small" onClick={() => navigate('/AddPatient')}>
           <Icon name='plus square outline' />
           Add Patient
         </Button>
