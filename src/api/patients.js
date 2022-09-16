@@ -16,6 +16,7 @@ const postPatients = async (params) => {
     email: params.email
   });
   return response.data;
+
 };
 
 export {getPatients, postPatients};

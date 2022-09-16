@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import HomeMenu from "components/HomeMenu";
 import Patients from "components/Patients/Patients";
@@ -10,8 +10,9 @@ const Root = () => (
     <Router>
       <HomeMenu />
       <Routes>
-          <Route path="/Patients" element={<Patients />} />
-          <Route path="/AddPatient" element={<AddPatient />} />
+        <Route path="/" element={<Navigate to="/patients" />} />
+        <Route path="/patients" element={<Patients />} />
+        <Route path="/patients/create" element={<AddPatient />} />
       </Routes>
     </Router>
   </div>

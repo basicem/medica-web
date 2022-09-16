@@ -74,7 +74,7 @@ const Patients = () => {
     <div>
       <StyledTopContainer>
         <StyledHeader>Patients</StyledHeader>
-        <Button size="small" onClick={() => navigate('/AddPatient')}>
+        <Button size="small" onClick={() => navigate('/patients/create')}>
           <Icon name='plus square outline' />
           Add Patient
         </Button>
