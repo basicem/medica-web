@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import HomeMenu from "components/HomeMenu";
 import Patients from "components/Patients/Patients";
-import AddPatient from "./Patients/AddPatient";
+import AddPatient from "./Patients/PatientCreate";
 
 const Root = () => (
   <div>

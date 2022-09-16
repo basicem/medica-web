@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Loader from "components/Loader";
-import {getPatients} from "api/patients";
+import { getPatients } from "api/patients";
 import PatientTable from "components/Patients/PatientTable";
 import { PAGINATION } from "utils/constants";
 import PatientFilters from "components/Patients/PatientFilters";
@@ -28,7 +28,6 @@ const StyledHeader = styled.h1`
   margin:0
 `;
 
-
 const Patients = () => {
   const [count, setCount] = useState(0);
   const [nextPage, setNextPage] = useState(0);
@@ -42,7 +41,7 @@ const Patients = () => {
     pageSize: PAGINATION.PAGE_SIZE,
   });
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetch = async () => {
