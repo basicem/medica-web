@@ -31,6 +31,7 @@ const PatientTable = ({ rows, error }) => {
       <Table singleLine>
         <Table.Header>
           <Table.Row>
+          <Table.HeaderCell>Avatar</Table.HeaderCell>
             <Table.HeaderCell>First Name</Table.HeaderCell>
             <Table.HeaderCell>Last Name</Table.HeaderCell>
             <Table.HeaderCell>E-mail address</Table.HeaderCell>
