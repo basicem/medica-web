@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import HomeMenu from "components/HomeMenu";
 import Patients from "components/Patients/Patients";
-import AddPatient from "./Patients/PatientCreate";
+import PatientCreate from "./Patients/PatientCreate";
 
 const Root = () => (
   <div>
@@ -26,7 +25,7 @@ const Root = () => (
       <Routes>
         <Route path="/" element={<Navigate to="/patients" />} />
         <Route path="/patients" element={<Patients />} />
-        <Route path="/patients/create" element={<AddPatient />} />
+        <Route path="/patients/create" element={<PatientCreate />} />
       </Routes>
     </Router>
   </div>

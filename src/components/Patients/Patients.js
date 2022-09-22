@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Pagination, Icon, Divider } from "semantic-ui-react";
+import { Button, Container, Pagination, Icon, Divider, Dimmer, Segment } from "semantic-ui-react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const StyledContainer = styled(Container)`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin: 1rem;
+    margin: 1rem;
 `;
 
 const StyledTopContainer = styled.div`
@@ -34,7 +34,7 @@ const Patients = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [rows, setRows] = useState();
   const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
     page: PAGINATION.PAGE,
@@ -46,6 +46,7 @@ const Patients = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
+        setLoading(true);
         const response = await getPatients(filters);
         setCount(response.count);
         setNextPage(response.nextPage);
@@ -80,10 +81,12 @@ const Patients = () => {
       </StyledTopContainer>
       <StyledContainer>
         <Divider/>
-        <Loader isActive={loading} />
-        <PatientFilters filters={filters} onApply={handleApplyFilters} />
-        <PatientTable rows={rows} error={error} />
-        <Pagination onPageChange={handlePageChange} activePage={filters.page} totalPages={totalPages} />
+        <Segment basic>
+          <Loader isActive={loading} inverted />
+          <PatientFilters filters={filters} onApply={handleApplyFilters} />
+          <PatientTable rows={rows} error={error} />
+          <Pagination onPageChange={handlePageChange} activePage={filters.page} totalPages={totalPages} />
+        </Segment>
       </StyledContainer>
     </div>
   );
