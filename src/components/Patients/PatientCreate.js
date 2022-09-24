@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 
 import { postPatient } from 'api/patients';
-import InputField from "components/Patients/InputField";
+import InputField from "components/InputField";
 import placeholder from 'images/placeholder.png'; 
 import convertToBase64 from 'helpers/helpers';
 
@@ -71,7 +71,7 @@ const ImageButton = styled.label`
 `;
 
 const initialValues = {
-  image: '',
+  image: placeholder,
   firstName: '',
   lastName: '',
   dateOfBirth: '',
@@ -114,6 +114,29 @@ const PatientCreate = () => {
         }
     };
 
+    const handleSubmit = async (values, { setSubmitting }) => {
+      try {
+          await postPatient({
+              image: values.image,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              dateOfBirth: values.dateOfBirth,
+              address: values.address,
+              city: values.city,
+              phoneNumber: values.phoneNumber,
+              email: values.email,
+          });
+          toast.success('New patient added!');
+          navigate('/patients/');
+      } 
+      catch(error) {
+          toast.error("Unable to create patient!");
+      }
+      finally {
+          setSubmitting(false);
+      }
+    };
+
     return (
         <StyledContainer>
             <StyledHeader>Create patient</StyledHeader>
@@ -126,34 +149,13 @@ const PatientCreate = () => {
             <Formik
                 initialValues= { initialValues }
                 validationSchema= { validationSchema }
-                  onSubmit= {async (values, { setSubmitting }) => {
-                    try {
-                        await postPatient({
-                            image: values.image,
-                            firstName: values.firstName,
-                            lastName: values.lastName,
-                            dateOfBirth: values.dateOfBirth,
-                            address: values.address,
-                            city: values.city,
-                            phoneNumber: values.phoneNumber,
-                            email: values.email,
-                        });
-                        toast.success('New patient added!');
-                        navigate('/patients/');
-                    } 
-                    catch(error) {
-                        toast.error("Unable to create patient!");
-                    }
-                    finally {
-                        setSubmitting(false);
-                    }
-                }}
+                onSubmit= {handleSubmit}
             >
-              {({touched, errors, setFieldValue}) => (
+              {({values, touched, errors, setFieldValue}) => (
                 <Form>
                   <StyledTopContainer>
                     <ImageContainer>
-                      <Image style={{height: "auto", maxWidth: "300px"}} src={ placeholder } size="medium" circular />
+                      <Image style={{height: "auto", maxWidth: "300px"}} src={ values.image } size="medium" circular />
                       <ImageButton
                         variant='contained'
                         component='label'>
@@ -222,7 +224,7 @@ const PatientCreate = () => {
                       />
                     </TopInfo> 
                   </StyledTopContainer>
-                    <StyledButton  primary style={{ width: "120px" }} type='submit'>Create</StyledButton> 
+                  <StyledButton  primary style={{ width: "120px" }} type='submit'>Create</StyledButton> 
                 </Form>
               )}
             </Formik>
