@@ -9,6 +9,8 @@
     "axios": "^0.26.1",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^6.3.0",
@@ -50,6 +52,15 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.6.1"
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "prettier": "^2.7.1"
+  },
+  "husky": {
+      "hooks": {
+          "pre-commit": "lint-staged"
+      }
+  },
+  "lint-staged": {
+      "src/**/*.{js,jsx}": ["eslint", "pretty-quick — staged", "git add"]
   }
 }

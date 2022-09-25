@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Pagination, Icon, Divider, Dimmer, Segment } from "semantic-ui-react";
+import {
+  Button, Container, Pagination, Icon, Divider, Segment,
+} from "semantic-ui-react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -74,13 +76,13 @@ const Patients = () => {
     <div>
       <StyledTopContainer>
         <StyledHeader>Patients</StyledHeader>
-        <Button size="small" onClick={() => navigate('/patients/create')}>
-          <Icon name='plus square outline' />
+        <Button size="small" onClick={() => navigate("/patients/create")}>
+          <Icon name="plus square outline" />
           Add Patient
         </Button>
       </StyledTopContainer>
       <StyledContainer>
-        <Divider/>
+        <Divider />
         <Segment basic>
           <Loader isActive={loading} inverted />
           <PatientFilters filters={filters} onApply={handleApplyFilters} />

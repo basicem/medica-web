@@ -4,6 +4,13 @@
     "commonjs": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -15,8 +22,6 @@
     "quotes": ["error", "double", { "allowTemplateLiterals": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "linebreak-style": ["error", "windows"],
-    // "no-restricted-imports": ["error", {
-    //   "patterns": [".*"]
-    // }],
+    "react/prop-types": 0
   }
 }
