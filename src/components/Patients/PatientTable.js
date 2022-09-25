@@ -1,5 +1,7 @@
-import React from 'react'
-import { Message, Table, Container, Segment } from 'semantic-ui-react'
+import React from "react";
+import {
+  Icon, Table, Container, Segment,
+} from "semantic-ui-react";
 import styled from "styled-components";
 
 import PatientRow from "components/Patients/PatientRow";
@@ -16,14 +18,22 @@ const PatientTable = ({ rows, error }) => {
     return (
       <StyledContainer>
         <Segment inverted color="red" secondary>
-          {error}
+          <Icon name="times circle outline" />
+          { error }
         </Segment>
       </StyledContainer>
     );
   }
 
-  if(rows === null) {
-    return <Message>Patients not found!</Message>
+  if (rows === null || rows?.length === 0) {
+    return (
+      <StyledContainer>
+        <Segment inverted color="blue" tertiary>
+          <Icon name="users" />
+          Patients not found!
+        </Segment>
+      </StyledContainer>
+    );
   }
 
   return (
@@ -31,18 +41,17 @@ const PatientTable = ({ rows, error }) => {
       <Table singleLine>
         <Table.Header>
           <Table.Row>
-          <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell>First Name</Table.HeaderCell>
-            <Table.HeaderCell>Last Name</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>E-mail address</Table.HeaderCell>
             <Table.HeaderCell>Phone Number</Table.HeaderCell>
             <Table.HeaderCell>Adress</Table.HeaderCell>
+            <Table.HeaderCell>City</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {rows?.map((p) => (
-            <PatientRow key={p.id} patient={p}/>
+            <PatientRow key={p.id} patient={p} />
           ))}
         </Table.Body>
       </Table>
