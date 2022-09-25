@@ -7,12 +7,18 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "formik": "^2.2.9",
+    "formik-semantic-ui-react": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "3.4.1",
+    "react-semantic-ui-datepickers": "^2.17.1",
+    "react-toastify": "^8.1.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

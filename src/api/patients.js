@@ -1,8 +1,11 @@
 import API from "./api";
 
-const getPatients = async (params) => {
+export const getPatients = async (params) => {
   const response = await API.get("/api/patients", { params });
   return response.data;
 };
 
-export default getPatients;
+export const postPatient = async (data) => {
+  const response = await API.post("/api/patients", data);
+  return response.data;
+};
