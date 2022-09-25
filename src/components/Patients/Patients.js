@@ -31,8 +31,6 @@ const StyledHeader = styled.h1`
 `;
 
 const Patients = () => {
-  const [count, setCount] = useState(0);
-  const [nextPage, setNextPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [rows, setRows] = useState();
   const [error, setError] = useState();
@@ -50,8 +48,6 @@ const Patients = () => {
       try {
         setLoading(true);
         const response = await getPatients(filters);
-        setCount(response.count);
-        setNextPage(response.nextPage);
         setTotalPages(response.totalPages);
         setRows(response.rows);
       } catch (e) {
@@ -87,7 +83,11 @@ const Patients = () => {
           <Loader isActive={loading} inverted />
           <PatientFilters filters={filters} onApply={handleApplyFilters} />
           <PatientTable rows={rows} error={error} />
-          <Pagination onPageChange={handlePageChange} activePage={filters.page} totalPages={totalPages} />
+          <Pagination
+            onPageChange={handlePageChange}
+            activePage={filters.page}
+            totalPages={totalPages}
+          />
         </Segment>
       </StyledContainer>
     </div>

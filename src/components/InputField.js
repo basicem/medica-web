@@ -1,5 +1,5 @@
-import React from 'react'
-import { Formik, useField } from 'formik';
+import React from "react";
+import { useField } from "formik";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -23,16 +23,16 @@ const StyledErrorMessage = styled.div`
 `;
 
 const InputField = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-    return (
-      <StyledDiv>
-        <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
-        <StyledInput {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <StyledErrorMessage>{meta.error}</StyledErrorMessage>
-        ) : null}
-      </StyledDiv>
-    );
-  };
+  const [field, meta] = useField(props);
+  return (
+    <StyledDiv>
+      <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
+      <StyledInput {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <StyledErrorMessage>{meta.error}</StyledErrorMessage>
+      ) : null}
+    </StyledDiv>
+  );
+};
 
-  export default InputField;
+export default InputField;
