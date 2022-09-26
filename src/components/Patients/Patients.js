@@ -83,11 +83,13 @@ const Patients = () => {
           <Loader isActive={loading} inverted />
           <PatientFilters filters={filters} onApply={handleApplyFilters} />
           <PatientTable rows={rows} error={error} />
+          {totalPages > 1 && (
           <Pagination
             onPageChange={handlePageChange}
             activePage={filters.page}
             totalPages={totalPages}
           />
+          )}
         </Segment>
       </StyledContainer>
     </div>
