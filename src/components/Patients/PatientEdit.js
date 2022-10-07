@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container, Icon, Image, Divider, Breadcrumb,
 } from "semantic-ui-react";
 import { Form, SubmitButton } from "formik-semantic-ui-react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate, Link } from "react-router-dom";
+import {
+  useNavigate, Link, useParams,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
+import Moment from "moment";
 
-import { postPatient } from "api/patients";
+import { editPatient, getPatientBySlug } from "api/patients";
 import InputField from "components/InputField";
 import placeholder from "images/placeholder.png";
 import convertToBase64 from "helpers/helpers";
@@ -73,17 +76,6 @@ const ImageButton = styled.label`
   margin: 1rem 1rem 1rem 1rem;
 `;
 
-const initialValues = {
-  image: placeholder,
-  firstName: "",
-  lastName: "",
-  dateOfBirth: "",
-  address: "",
-  city: "",
-  phoneNumber: "",
-  email: "",
-};
-
 const validationSchema = Yup.object({
   image: Yup.string()
     .test(
@@ -112,8 +104,27 @@ const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
 });
 
-const PatientCreate = () => {
+const PatientEdit = () => {
   const navigate = useNavigate();
+  const { slug } = useParams();
+  const [patient, setPatient] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        setLoading(true);
+        const response = await getPatientBySlug(slug);
+        setPatient(response);
+      } catch (e) {
+        setError("Unable to fetch patient");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, [slug]);
 
   const handleFileUpload = async (e, setFieldValue) => {
     const file = e.target.files[0];
@@ -126,7 +137,8 @@ const PatientCreate = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await postPatient({
+      await editPatient({
+        slug,
         image: values.image,
         firstName: values.firstName,
         lastName: values.lastName,
@@ -136,10 +148,10 @@ const PatientCreate = () => {
         phoneNumber: values.phoneNumber,
         email: values.email,
       });
-      toast.success("New patient added!");
+      toast.success("Patient updated!");
       navigate("/patients/");
-    } catch (error) {
-      toast.error("Unable to create patient!");
+    } catch (err) {
+      toast.error("Unable to update patient!");
     } finally {
       setSubmitting(false);
     }
@@ -147,18 +159,23 @@ const PatientCreate = () => {
 
   return (
     <StyledContainer>
-      <StyledHeader>Create patient</StyledHeader>
+      <StyledHeader>Edit patient</StyledHeader>
       <Breadcrumb>
         <Breadcrumb.Section link><Link to="/patients">Patients</Link></Breadcrumb.Section>
         <Breadcrumb.Divider />
-        <Breadcrumb.Section active>Create patient</Breadcrumb.Section>
+        <Breadcrumb.Section link><Link to={`/patients/${slug}`}>Patient details</Link></Breadcrumb.Section>
+        <Breadcrumb.Divider />
+        <Breadcrumb.Section active>Edit patient</Breadcrumb.Section>
       </Breadcrumb>
       <Divider />
+      {patient
+      && (
       <Formik
-        initialValues={initialValues}
+        initialValues={{ ...patient, dateOfBirth: Moment(patient.dateOfBirth).format("YYYY-MM-DD"), image: encodeURI(Buffer.from(patient.image.data)) }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
+
         {({
           values, touched, errors, setFieldValue,
         }) => (
@@ -190,21 +207,18 @@ const PatientCreate = () => {
                   label="First Name"
                   name="firstName"
                   type="text"
-                  placeholder="Jane"
                 />
 
                 <InputField
                   label="Last Name"
                   name="lastName"
                   type="text"
-                  placeholder="Doe"
                 />
 
                 <InputField
                   label="Email"
                   name="email"
                   type="text"
-                  placeholder="janedoe@gmail.com"
                 />
 
                 <InputField
@@ -217,31 +231,29 @@ const PatientCreate = () => {
                   label="Address"
                   name="address"
                   type="text"
-                  placeholder="Sarajevska 17"
                 />
 
                 <InputField
                   label="City"
                   name="city"
                   type="text"
-                  placeholder="Sarajevo"
                 />
 
                 <InputField
                   label="Phone Number"
                   name="phoneNumber"
                   type="text"
-                  placeholder="061-123-123"
                 />
               </TopInfo>
             </StyledTopContainer>
-            <StyledButton primary style={{ width: "120px" }} type="submit">Create</StyledButton>
+            <StyledButton primary style={{ width: "120px" }} type="submit">Update</StyledButton>
           </Form>
         )}
       </Formik>
+      )}
 
     </StyledContainer>
   );
 };
 
-export default PatientCreate;
+export default PatientEdit;

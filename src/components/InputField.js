@@ -18,7 +18,6 @@ const StyledInput = styled.input`
 const StyledErrorMessage = styled.div`
     font-size: 12px;
     color: #e53935;
-    width: 400px;
     margin-top: 0.25rem;
 `;
 
