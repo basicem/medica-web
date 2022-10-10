@@ -15,12 +15,12 @@ export const postPatient = async (data) => {
   return response.data;
 };
 
-export const editPatient = async (data) => {
-  const response = await API.put("/api/patients", data);
+export const editPatient = async (id, data) => {
+  const response = await API.put(`/api/patients/${id}`, data);
   return response.data;
 };
 
-export const deletePatient = async (slug) => {
-  const response = await API.delete(`/api/patients/${slug}`);
+export const deletePatient = async (id) => {
+  const response = await API.delete(`/api/patients/${id}`);
   return response.data;
 };

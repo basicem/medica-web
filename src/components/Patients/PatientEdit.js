@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container, Icon, Image, Divider, Breadcrumb,
+  Container, Icon, Image, Divider, Breadcrumb, Loader, Segment,
 } from "semantic-ui-react";
 import { Form, SubmitButton } from "formik-semantic-ui-react";
 import { Formik } from "formik";
@@ -137,8 +137,7 @@ const PatientEdit = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await editPatient({
-        slug,
+      const data = {
         image: values.image,
         firstName: values.firstName,
         lastName: values.lastName,
@@ -147,7 +146,8 @@ const PatientEdit = () => {
         city: values.city,
         phoneNumber: values.phoneNumber,
         email: values.email,
-      });
+      };
+      await editPatient(patient.id, data);
       toast.success("Patient updated!");
       navigate("/patients/");
     } catch (err) {
@@ -157,8 +157,20 @@ const PatientEdit = () => {
     }
   };
 
+  if (error) {
+    return (
+      <StyledContainer>
+        <Segment inverted color="red" secondary>
+          <Icon name="times circle outline" />
+          { error }
+        </Segment>
+      </StyledContainer>
+    );
+  }
+
   return (
     <StyledContainer>
+      <Loader active={loading}>Loading</Loader>
       <StyledHeader>Edit patient</StyledHeader>
       <Breadcrumb>
         <Breadcrumb.Section link><Link to="/patients">Patients</Link></Breadcrumb.Section>

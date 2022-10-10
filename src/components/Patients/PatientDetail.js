@@ -93,7 +93,7 @@ const PatientDetail = () => {
 
   const handleDelete = async () => {
     try {
-      await deletePatient(slug);
+      await deletePatient(patient.id);
       toast.success("Patient deleted!");
       navigate("/patients/");
     } catch (err) {
