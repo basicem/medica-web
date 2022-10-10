@@ -5,11 +5,9 @@ import {
 
 function ModalDeletePatient({ show, handleClick, handleDelete }) {
   const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
   const onApply = async () => {
     setLoading(true);
-    setDisabled(true);
     handleDelete();
   };
 
@@ -30,7 +28,7 @@ function ModalDeletePatient({ show, handleClick, handleDelete }) {
           {" "}
           No
         </Button>
-        <Button loading={loading} disabled={disabled} color="green" onClick={onApply}>
+        <Button loading={loading} color="green" onClick={onApply}>
           <Icon name="checkmark" />
           {" "}
           Yes

@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
-import Moment from "moment";
+import { format } from "date-fns";
 
 import { editPatient, getPatientBySlug } from "api/patients";
 import InputField from "components/InputField";
@@ -183,7 +183,7 @@ const PatientEdit = () => {
       {patient
       && (
       <Formik
-        initialValues={{ ...patient, dateOfBirth: Moment(patient.dateOfBirth).format("YYYY-MM-DD"), image: encodeURI(Buffer.from(patient.image.data)) }}
+        initialValues={{ ...patient, dateOfBirth: format(new Date(patient.dateOfBirth), "yyyy-MM-dd"), image: encodeURI(Buffer.from(patient.image.data)) }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

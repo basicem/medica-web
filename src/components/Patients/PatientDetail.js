@@ -4,11 +4,10 @@ import {
   Container, Divider, Icon, Image, Button, Segment, Loader, Breadcrumb,
 } from "semantic-ui-react";
 import styled from "styled-components";
-
 import { toast } from "react-toastify";
 
 import { getPatientBySlug, deletePatient } from "api/patients";
-import ModalDeletePatient from "components/ModalDeletePatient";
+import ModalDeletePatient from "components/Patients/PatientModalDelete";
 
 const StyledContainer = styled(Container)`
   && {

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Container, Icon, Image, Divider, Breadcrumb,
+  Container, Divider, Breadcrumb,
 } from "semantic-ui-react";
 import { Form, SubmitButton } from "formik-semantic-ui-react";
 import { Formik } from "formik";
@@ -14,6 +14,7 @@ import { postPatient } from "api/patients";
 import InputField from "components/InputField";
 import placeholder from "images/placeholder.png";
 import convertToBase64 from "helpers/helpers";
+import AvatarField from "components/AvatarField";
 
 const StyledContainer = styled(Container)`
   && {
@@ -49,28 +50,9 @@ const StyledHeader = styled.h1`
   margin-bottom: 2rem;
 `;
 
-const StyledErrorMessage = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: #e53935;
-    margin-top: 0.25rem;
-`;
-
 const StyledButton = styled(SubmitButton)`
     padding-top: 1rem;
     float: right;
-`;
-
-const ImageButton = styled.label`
-  border: 1px solid white;
-  border-radius: 6px;
-  display: inline-block;
-  padding: 8px 12px;
-  background-color: #00b3b3;
-  color: white;
-  margin: 1rem 1rem 1rem 1rem;
 `;
 
 const initialValues = {
@@ -160,30 +142,18 @@ const PatientCreate = () => {
         onSubmit={handleSubmit}
       >
         {({
-          values, touched, errors, setFieldValue,
+          values, setFieldValue,
         }) => (
           <Form>
             <StyledTopContainer>
               <ImageContainer>
-                <Image style={{ height: "auto", maxWidth: "300px" }} src={values.image} size="medium" circular />
-                <ImageButton
-                  variant="contained"
-                  component="label"
-                >
-                  <Icon name="file image outline" />
-                  Choose Avatar
-                  <input
-                    label="Image"
-                    name="image"
-                    type="file"
-                    accept=".jpeg, .png, .jpg"
-                    onChange={(e) => handleFileUpload(e, setFieldValue)}
-                    hidden
-                  />
-                </ImageButton>
-                {touched.image && errors.image ? (
-                  <StyledErrorMessage>{errors.image}</StyledErrorMessage>
-                ) : null}
+                <AvatarField
+                  label="Image"
+                  name="image"
+                  type="image"
+                  value={values.image}
+                  onChange={(e) => handleFileUpload(e, setFieldValue)}
+                />
               </ImageContainer>
               <TopInfo>
                 <InputField
