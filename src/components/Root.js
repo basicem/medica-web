@@ -10,6 +10,7 @@ import Patients from "components/Patients/Patients";
 import PatientCreate from "./Patients/PatientCreate";
 import PatientDetail from "./Patients/PatientDetail";
 import PatientEdit from "./Patients/PatientEdit";
+import Users from "./Users/Users";
 
 const Root = () => (
   <div>
@@ -32,6 +33,7 @@ const Root = () => (
         <Route path="/patients/create" element={<PatientCreate />} />
         <Route path="/patients/:slug" element={<PatientDetail />} />
         <Route path="/patients/edit/:slug" element={<PatientEdit />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </Router>
   </div>

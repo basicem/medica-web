@@ -3,20 +3,19 @@ import {
   Button, Container, Pagination, Icon, Divider, Segment,
 } from "semantic-ui-react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 import Loader from "components/Loader";
-import { getPatients } from "api/patients";
-import PatientTable from "components/Patients/PatientTable";
+import { getUsers } from "api/users";
+import UserTable from "components/Users/UserTable";
 import { PAGINATION } from "utils/constants";
-import PatientFilters from "components/Patients/PatientFilters";
+import UserModalCreate from "./UserModalCreate";
 
 const StyledContainer = styled(Container)`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin: 1rem;
-  min-width: 0;
+    margin: 1rem;
 `;
 
 const StyledTopContainer = styled.div`
@@ -31,7 +30,7 @@ const StyledHeader = styled.h1`
   margin:0
 `;
 
-const Patients = () => {
+const Users = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [rows, setRows] = useState();
   const [error, setError] = useState();
@@ -41,49 +40,48 @@ const Patients = () => {
     page: PAGINATION.PAGE,
     pageSize: PAGINATION.PAGE_SIZE,
   });
-
-  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setLoading(true);
-        const response = await getPatients(filters);
+        const response = await getUsers(filters);
         setTotalPages(response.totalPages);
         setRows(response.rows);
       } catch (e) {
-        setError("Unable to fetch patients");
+        setError("Unable to fetch users");
       } finally {
         setLoading(false);
       }
     };
 
     fetch();
-  }, [filters]);
-
-  const handleApplyFilters = ({ search }) => {
-    setFilters({ ...filters, search, page: PAGINATION.PAGE });
-  };
+  }, [filters, modal]);
 
   const handlePageChange = (e, data) => {
     setFilters({ ...filters, page: data.activePage });
   };
 
+  const handleClick = () => {
+    setModal(!modal);
+  };
+
   return (
     <div>
+      <UserModalCreate show={modal} handleClick={handleClick} />
       <StyledTopContainer>
-        <StyledHeader>Patients</StyledHeader>
-        <Button size="small" onClick={() => navigate("/patients/create")}>
+        <StyledHeader>Users</StyledHeader>
+        <Button size="small" onClick={handleClick}>
           <Icon name="plus square outline" />
-          Add Patient
+          Add User
         </Button>
       </StyledTopContainer>
       <StyledContainer>
         <Divider />
         <Segment basic>
           <Loader isActive={loading} inverted />
-          <PatientFilters filters={filters} onApply={handleApplyFilters} />
-          <PatientTable rows={rows} error={error} />
+          <UserTable rows={rows} error={error} />
           {totalPages > 1 && (
           <Pagination
             onPageChange={handlePageChange}
@@ -97,4 +95,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default Users;

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
 
 const HomeMenu = () => {
   const [state, setState] = useState({ activeItem: "patients" });
-
+  const navigate = useNavigate();
   const handleItemClick = (e, { name }) => {
     setState({ activeItem: name });
+    navigate(name);
   };
 
   const { activeItem } = state;
@@ -20,6 +22,12 @@ const HomeMenu = () => {
       <Menu.Item
         name="appointments"
         active={activeItem === "appointments"}
+        onClick={handleItemClick}
+      />
+      <Menu.Item
+        name="users"
+        active={activeItem === "users"}
+        to="/users"
         onClick={handleItemClick}
       />
       <Menu.Menu position="right">
