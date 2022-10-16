@@ -1,6 +1,6 @@
 import React from "react";
-import { useField } from "formik";
 import styled from "styled-components";
+import { Checkbox } from "semantic-ui-react";
 
 const StyledDiv = styled.div`
     margin-top: 1rem;
@@ -16,25 +16,13 @@ const StyledLabel = styled.label`
 
 `;
 
-const StyledErrorMessage = styled.div`
-  font-size: 12px;
-  color: #e53935;
-  margin-top: 0.25rem;
-`;
-
-const InputCheckbox = ({ children, ...props }) => {
-  const [field, meta] = useField({ ...props, type: "checkbox" });
-  return (
-    <StyledDiv>
-      <StyledLabel>
-        <input style={{ verticalAlign: "middle", marginRight: "0.5rem" }} {...field} {...props} type="checkbox" />
-        {children}
-      </StyledLabel>
-      {meta.touched && meta.error ? (
-        <StyledErrorMessage>{meta.error}</StyledErrorMessage>
-      ) : null}
-    </StyledDiv>
-  );
-};
+const InputCheckbox = ({ children, ...props }) => (
+  <StyledDiv>
+    <StyledLabel>
+      <Checkbox toggle onChange={props.onChange} style={{ verticalAlign: "middle", marginRight: "0.5rem" }} {...props} />
+      {children}
+    </StyledLabel>
+  </StyledDiv>
+);
 
 export default InputCheckbox;

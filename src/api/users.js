@@ -9,3 +9,13 @@ export const postUser = async (data) => {
   const response = await API.post("/api/users", data);
   return response.data;
 };
+
+export const getUserBySlug = async (slug) => {
+  const response = await API.get(`/api/users/${slug}`);
+  return response.data;
+};
+
+export const editUser = async (id, data) => {
+  const response = await API.put(`/api/users/${id}`, data);
+  return response.data;
+};

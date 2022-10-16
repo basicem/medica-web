@@ -21,7 +21,7 @@ const PatientFilters = ({ filters, onApply }) => {
       fluid
       icon="users"
       iconPosition="left"
-      placeholder="Search users by name or email"
+      placeholder="Search patients by name or email"
     />
   );
 };

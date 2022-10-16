@@ -14,7 +14,9 @@ const StyledContainer = styled(Container)`
   min-width: 0;
 `;
 
-const UserTable = ({ rows, error }) => {
+const UserTable = ({
+  handleEdit, rows, error,
+}) => {
   if (error) {
     return (
       <StyledContainer>
@@ -53,7 +55,7 @@ const UserTable = ({ rows, error }) => {
 
         <Table.Body>
           {rows?.map((u) => (
-            <UserRow key={u.id} user={u} />
+            <UserRow key={u.id} user={u} handleEdit={handleEdit} />
           ))}
         </Table.Body>
       </Table>

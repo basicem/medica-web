@@ -16,7 +16,6 @@ const StyledContainer = styled(Container)`
   flex-wrap: wrap;
   flex-direction: row;
   margin: 1rem;
-  min-width: 0;
 `;
 
 const StyledTopContainer = styled.div`

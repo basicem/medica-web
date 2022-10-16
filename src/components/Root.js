@@ -11,6 +11,7 @@ import PatientCreate from "./Patients/PatientCreate";
 import PatientDetail from "./Patients/PatientDetail";
 import PatientEdit from "./Patients/PatientEdit";
 import Users from "./Users/Users";
+import UserModalEdit from "./Users/UserModalEdit";
 
 const Root = () => (
   <div>
@@ -34,6 +35,7 @@ const Root = () => (
         <Route path="/patients/:slug" element={<PatientDetail />} />
         <Route path="/patients/edit/:slug" element={<PatientEdit />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/edit:slug" element={<UserModalEdit />} />
       </Routes>
     </Router>
   </div>
