@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import InputField from "components/InputField";
 import InputSelect from "components/InputSelect";
 import InputCheckbox from "components/InputCheckbox";
+import { useUsers } from "./UsersContext";
 
 const StyledTopContainer = styled.div`
   display: flex;
@@ -60,9 +61,13 @@ const validationSchema = Yup.object({
     .oneOf(["Admin", "Doctor"]),
 });
 
-function UserModalCreate({ show, handleCancel, handleCreateUser }) {
-  const handleSubmit = async (values, { setSubmitting }) => {
-    handleCreateUser(values, setSubmitting);
+function UserModalCreate() {
+  const {
+    visibleModalCreate, createLoading, handleCreateUser, handleCloseCreateModal,
+  } = useUsers();
+
+  const handleSubmit = async (values) => {
+    handleCreateUser(values);
   };
 
   const handleChange = async (data, setFieldValue) => {
@@ -71,8 +76,8 @@ function UserModalCreate({ show, handleCancel, handleCreateUser }) {
 
   return (
     <Modal
-      onClose={handleCancel}
-      open={show}
+      onClose={handleCloseCreateModal}
+      open={visibleModalCreate}
     >
       <Modal.Header>Add user</Modal.Header>
       <Modal.Content>
@@ -131,13 +136,15 @@ function UserModalCreate({ show, handleCancel, handleCreateUser }) {
               </StyledTopContainer>
               <Modal.Actions>
                 <ButtonGroup>
-                  <Button color="grey" onClick={handleCancel}>
+                  <Button color="grey" onClick={handleCloseCreateModal} disabled={createLoading}>
                     Cancel
                   </Button>
                   <Button
                     type="submit"
                     content="Create"
                     positive
+                    disabled={createLoading}
+                    loading={createLoading}
                   />
                 </ButtonGroup>
               </Modal.Actions>

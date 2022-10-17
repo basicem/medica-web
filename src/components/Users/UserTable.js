@@ -5,6 +5,7 @@ import {
 import styled from "styled-components";
 
 import UserRow from "components/Users/UserRow";
+import { useUsers } from "./UsersContext";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -14,9 +15,9 @@ const StyledContainer = styled(Container)`
   min-width: 0;
 `;
 
-const UserTable = ({
-  handleEdit, rows, error,
-}) => {
+const UserTable = () => {
+  const { users, error, handleSetUser } = useUsers();
+
   if (error) {
     return (
       <StyledContainer>
@@ -28,7 +29,7 @@ const UserTable = ({
     );
   }
 
-  if (rows === null || rows?.length === 0) {
+  if (!users || users?.length === 0) {
     return (
       <StyledContainer>
         <Segment inverted color="blue" tertiary>
@@ -54,8 +55,8 @@ const UserTable = ({
         </Table.Header>
 
         <Table.Body>
-          {rows?.map((u) => (
-            <UserRow key={u.id} user={u} handleEdit={handleEdit} />
+          {users.map((u) => (
+            <UserRow key={u.id} user={u} onSetUser={handleSetUser} />
           ))}
         </Table.Body>
       </Table>

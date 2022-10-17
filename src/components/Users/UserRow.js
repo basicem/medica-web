@@ -3,7 +3,7 @@ import {
   Table, Icon, Button,
 } from "semantic-ui-react";
 
-const UserRow = ({ user, handleEdit }) => (
+const UserRow = ({ user, onSetUser }) => (
   <>
     <Table.Row>
       <Table.Cell>
@@ -18,7 +18,7 @@ const UserRow = ({ user, handleEdit }) => (
         <Icon color={user.isVerified === true ? "green" : "red"} name={user.isVerified === true ? "checkmark" : "close"} />
       </Table.Cell>
       <Table.Cell width={1} textAlign="center">
-        <Button size="tiny" color="teal" onClick={() => { handleEdit(user); }}>
+        <Button size="tiny" color="teal" onClick={() => onSetUser(user)}>
           <Icon name="edit outline" />
           Edit
         </Button>

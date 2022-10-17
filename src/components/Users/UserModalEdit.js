@@ -9,6 +9,7 @@ import { Formik } from "formik";
 
 import InputSelect from "components/InputSelect";
 import InputCheckbox from "components/InputCheckbox";
+import { useUsers } from "./UsersContext";
 
 const StyledTopContainer = styled.div`
   display: flex;
@@ -38,23 +39,27 @@ const validationSchema = Yup.object({
     .oneOf(["Admin", "Doctor"]),
 });
 
-function UserModalEdit({
-  user, show, handleEditUser, handleCancel,
-}) {
-  const handleSubmit = async (values, { setSubmitting }) => {
-    handleEditUser(values, setSubmitting);
+function UserModalEdit() {
+  const {
+    selectedUser,
+    updateLoading, visibleModalEdit, handleEditUser,
+    handleCloseEditModal,
+  } = useUsers();
+
+  const handleSubmit = async (values) => {
+    handleEditUser(values);
   };
 
   const handleChange = async (data, setFieldValue) => {
     setFieldValue("isActive", data.checked);
   };
 
-  if (!user) { return null; }
+  if (!selectedUser) { return null; }
 
   return (
     <Modal
-      onClose={handleCancel}
-      open={show}
+      onClose={handleCloseEditModal}
+      open={visibleModalEdit}
     >
       <Modal.Header>
         Edit user
@@ -63,18 +68,18 @@ function UserModalEdit({
         <Modal.Description>
           <Header>
             {" "}
-            {`${user.firstName} ${user.lastName}`}
+            {`${selectedUser.firstName} ${selectedUser.lastName}`}
           </Header>
           <Label color="blue">
             <Icon name="mail outline" />
-            {`${user.email}`}
+            {`${selectedUser.email}`}
           </Label>
         </Modal.Description>
-        {user
+        {selectedUser
         && (
 
         <Formik
-          initialValues={user}
+          initialValues={selectedUser}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -101,13 +106,15 @@ function UserModalEdit({
               </StyledTopContainer>
               <Modal.Actions>
                 <ButtonGroup>
-                  <Button color="grey" onClick={handleCancel}>
+                  <Button color="grey" onClick={handleCloseEditModal} disabled={updateLoading}>
                     Cancel
                   </Button>
                   <Button
                     type="submit"
                     content="Update"
                     positive
+                    disabled={updateLoading}
+                    loading={updateLoading}
                   />
                 </ButtonGroup>
               </Modal.Actions>

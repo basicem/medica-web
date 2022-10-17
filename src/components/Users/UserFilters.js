@@ -1,22 +1,28 @@
 import React, { useState } from "react";
 import { Input, Select, Button } from "semantic-ui-react";
 
+import { useUsers } from "./UsersContext";
+
 const optionsRole = [
   { key: "all", text: "All", value: "all" },
   { key: "doctor", text: "Doctor", value: "doctor" },
   { key: "admin", text: "Admin", value: "admin" },
 ];
+
 const optionsActive = [
   { key: "all", text: "All", value: "all" },
   { key: "active", text: "Active", value: "true" },
   { key: "deactivated", text: "Deactivated", value: "false" },
 ];
+
 const optionsVerified = [
   { key: "all", text: "All", value: "all" },
   { key: "verified", text: "Verified", value: "true" },
   { key: "unverified", text: "Unverified", value: "false" },
 ];
-const UserFilters = ({ filters, onApply }) => {
+
+const UserFilters = () => {
+  const { filters, handleApplyFilters: onApply } = useUsers();
   const [search, setSearch] = useState(filters.search);
   const [role, setRole] = useState(filters.role);
   const [active, setActive] = useState(filters.active);
