@@ -73,12 +73,15 @@ export const UsersProvider = ({ children }) => {
       const data = {
         role: values.role,
         isActive: values.isActive,
+        isVerified: values.isVerified,
       };
       await editUser(selectedUser.id, data);
 
       setUsers((draft) => draft.map((user) => {
         if (user.id === selectedUser.id) {
-          return { ...user, role: values.role, isActive: values.isActive };
+          return {
+            ...user, role: values.role, isActive: values.isActive, isVerified: values.isVerified,
+          };
         }
 
         return user;

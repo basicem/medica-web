@@ -74,6 +74,10 @@ function UserModalCreate() {
     setFieldValue("isActive", data.checked);
   };
 
+  const handleChangeVerified = async (data, setFieldValue) => {
+    setFieldValue("isVerified", data.checked);
+  };
+
   return (
     <Modal
       onClose={handleCloseCreateModal}
@@ -131,6 +135,10 @@ function UserModalCreate() {
 
                   <InputCheckbox name="isActive" onChange={(e, data) => handleChange(data, setFieldValue)}>
                     Active
+                  </InputCheckbox>
+
+                  <InputCheckbox name="isVerified" onChange={(e, data) => handleChangeVerified(data, setFieldValue)}>
+                    Verified
                   </InputCheckbox>
                 </TopInfo>
               </StyledTopContainer>

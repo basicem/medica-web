@@ -54,6 +54,10 @@ function UserModalEdit() {
     setFieldValue("isActive", data.checked);
   };
 
+  const handleChangeVerified = async (data, setFieldValue) => {
+    setFieldValue("isVerified", data.checked);
+  };
+
   if (!selectedUser) { return null; }
 
   return (
@@ -100,6 +104,10 @@ function UserModalEdit() {
 
                   <InputCheckbox checked={values.isActive} name="isActive" onChange={(e, data) => handleChange(data, setFieldValue)}>
                     Active
+                  </InputCheckbox>
+
+                  <InputCheckbox checked={values.isVerified} name="isVerified" onChange={(e, data) => handleChangeVerified(data, setFieldValue)}>
+                    Verified
                   </InputCheckbox>
 
                 </TopInfo>
