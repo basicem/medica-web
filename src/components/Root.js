@@ -15,6 +15,7 @@ import LogIn from "./LogIn/LogIn";
 import { useStore } from "./LogIn/StoreContext";
 import AdminNav from "./AdminNav";
 import DoctorNav from "./DoctorNav";
+import Home from "./Home";
 import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./Forbidden";
 
@@ -25,16 +26,17 @@ const Root = () => {
     const fetch = async () => {
       try {
         // get the JWT
+        console.log("test");
         const token = localStorage.getItem("Bearer");
         // ako token nije null
-        if (!token && token !== "" && token !== undefined) {
+        if (token && token !== "" && token !== undefined) {
           const data = {
             token,
           };
           // provjera tokena /api/session
           const response = await getSession(data);
           // ako je token ok postavit usera?
-          // console.log("User trenutni je: ", response);
+          console.log("User trenutni je: ", response);
           setUser(response);
         }
       } catch (e) {
@@ -43,7 +45,7 @@ const Root = () => {
     };
 
     fetch();
-  }, [setUser]);
+  }, []);
 
   return (
     <div>
@@ -65,6 +67,7 @@ const Root = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LogIn />} />
+          <Route path="/home" element={<Home />} />
 
           {/* Protected routes with ProtectedRoute component */}
           <Route
