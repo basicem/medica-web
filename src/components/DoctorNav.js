@@ -17,8 +17,6 @@ const DoctorNav = () => {
   const handleLogOut = async (e, { name }) => {
     setState({ activeItem: name });
     localStorage.clear();
-    // localStorage.setItem("Bearer", null);
-    // localStorage.setItem("UserId", 0);
     setUser(null);
     navigate("/login");
   };
@@ -39,7 +37,7 @@ const DoctorNav = () => {
       />
       <Menu.Menu position="right">
 
-        <Dropdown item text="example@gmail.com">
+        <Dropdown item text={user.email}>
           <Dropdown.Menu>
             <Dropdown.Item
               name="account"

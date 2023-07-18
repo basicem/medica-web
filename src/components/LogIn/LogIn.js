@@ -8,9 +8,9 @@ import { Form } from "formik-semantic-ui-react";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 
-import { logIn } from "api/users";
-
+import { logIn, getSession } from "api/users";
 import InputField from "components/InputField";
+import { useStore } from "./StoreContext";
 
 const StyledTopContainer = styled.div`
   display: flex;
@@ -59,11 +59,17 @@ const validationSchema = Yup.object({
 
 function LogIn() {
   const navigate = useNavigate();
+  const { setUser } = useStore();
 
   const handleSubmit = async (values) => {
     const token = await logIn(values);
     localStorage.setItem("Bearer", token);
-    navigate("/users");
+    // console.log("token: ", token);
+    if (token && token !== "" && token !== undefined) {
+      const response = await getSession();
+      setUser(response);
+      navigate("/users");
+    }
   };
 
   return (

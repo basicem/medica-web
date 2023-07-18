@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 
+import { useStore } from "./LogIn/StoreContext";
+
 const AdminNav = () => {
   const [state, setState] = useState({ activeItem: "users" });
   const navigate = useNavigate();
+  const { user, setUser } = useStore();
+
   const handleItemClick = (e, { name }) => {
     setState({ activeItem: name });
     navigate(name);
@@ -12,8 +16,8 @@ const AdminNav = () => {
 
   const handleLogOut = async (e, { name }) => {
     setState({ activeItem: name });
-    localStorage.setItem("Bearer", null);
-    localStorage.setItem("UserId", 0);
+    localStorage.clear();
+    setUser(null);
     navigate("/login");
   };
 
@@ -29,7 +33,7 @@ const AdminNav = () => {
       />
       <Menu.Menu position="right">
 
-        <Dropdown item text="example@gmail.com">
+        <Dropdown item text={user.email}>
           <Dropdown.Menu>
             <Dropdown.Item
               name="account"

@@ -15,9 +15,10 @@ import LogIn from "./LogIn/LogIn";
 import { useStore } from "./LogIn/StoreContext";
 import AdminNav from "./AdminNav";
 import DoctorNav from "./DoctorNav";
+import ProtectedRoute from "./ProtectedRoute";
+import Forbidden from "./Forbidden";
 
 const Root = () => {
-  // const [initialized, setInitialized] = useState(null);
   const { user, setUser } = useStore();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Root = () => {
     };
 
     fetch();
-  }, []);
+  }, [setUser]);
 
   return (
     <div>
@@ -58,21 +59,40 @@ const Root = () => {
         pauseOnHover
       />
       <Router>
-        {user?.role === "Admin" && (
-        <AdminNav />
-        )}
+        {user?.role === "Admin" && <AdminNav />}
+        {user?.role === "Doctor" && <DoctorNav />}
 
-        {user?.role === "Doctor" && (
-        <DoctorNav />
-        )}
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LogIn />} />
-          <Route path="/patients" element={<Patients />} />
-          <Route path="/patients/create" element={<PatientCreate />} />
-          <Route path="/patients/:slug" element={<PatientDetail />} />
-          <Route path="/patients/edit/:slug" element={<PatientEdit />} />
-          <Route path="/users" element={<UsersRoot />} />
+
+          {/* Protected routes with ProtectedRoute component */}
+          <Route
+            path="/patients"
+            element={<ProtectedRoute element={<Patients />} allowedRoles={["Admin", "Doctor"]} />}
+          />
+          <Route
+            path="/patients/create"
+            element={<ProtectedRoute element={<PatientCreate />} allowedRoles={["Admin", "Doctor"]} />}
+          />
+          <Route
+            path="/patients/:slug"
+            element={<ProtectedRoute element={<PatientDetail />} allowedRoles={["Admin", "Doctor"]} />}
+          />
+          <Route
+            path="/patients/edit/:slug"
+            element={<ProtectedRoute element={<PatientEdit />} allowedRoles={["Admin", "Doctor"]} />}
+          />
+          <Route
+            path="/users"
+            element={<ProtectedRoute element={<UsersRoot />} allowedRoles={["Admin"]} />}
+          />
+
+          {/* Route for forbidden access */}
+          <Route path="/forbidden" element={<Forbidden />} />
+
+          {/* Redirect unknown routes to the forbidden page */}
+          <Route path="*" element={<Navigate to="/forbidden" replace />} />
         </Routes>
       </Router>
     </div>
