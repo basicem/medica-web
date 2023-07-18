@@ -15,7 +15,7 @@ const StyledContainer = styled(Container)`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-    margin: 1rem;
+  margin: 1rem;
 `;
 
 const StyledTopContainer = styled.div`
