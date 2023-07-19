@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from "react-router-dom";
@@ -20,32 +20,25 @@ import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./Forbidden";
 
 const Root = () => {
+  const [initialized, setInitialized] = useState(false);
   const { user, setUser } = useStore();
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        // get the JWT
-        console.log("test");
-        const token = localStorage.getItem("Bearer");
-        // ako token nije null
-        if (token && token !== "" && token !== undefined) {
-          const data = {
-            token,
-          };
-          // provjera tokena /api/session
-          const response = await getSession(data);
-          // ako je token ok postavit usera?
-          console.log("User trenutni je: ", response);
-          setUser(response);
-        }
+        const response = await getSession();
+        setUser(response);
       } catch (e) {
         console.log(e);
+      } finally {
+        setInitialized(true);
       }
     };
 
     fetch();
   }, []);
+
+  if (!initialized) { return null; }
 
   return (
     <div>
