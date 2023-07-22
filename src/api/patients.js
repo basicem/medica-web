@@ -6,7 +6,12 @@ export const getPatients = async (params) => {
 };
 
 export const getPatientBySlug = async (slug) => {
-  const response = await API.get(`/api/patients/${slug}`);
+  const response = await API.get(`/api/patients/slug/${slug}`);
+  return response.data;
+};
+
+export const getPatientById = async (id) => {
+  const response = await API.get(`/api/patients/${id}`);
   return response.data;
 };
 

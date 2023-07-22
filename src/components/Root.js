@@ -18,6 +18,9 @@ import DoctorNav from "./DoctorNav";
 import Home from "./Home";
 import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./Forbidden";
+import Calendar from "./Appointments/Calendar";
+import AppointmentCreate from "./Appointments/AppointmentCreate";
+import AppointmentDetail from "./Appointments/AppointmentDetail";
 
 const Root = () => {
   const [initialized, setInitialized] = useState(false);
@@ -61,6 +64,9 @@ const Root = () => {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/appointments" element={<Calendar />} />
+          <Route path="/appointments/create" element={<AppointmentCreate />} />
+          <Route path="/appointments/:slug" element={<AppointmentDetail />} />
 
           {/* Protected routes with ProtectedRoute component */}
           <Route

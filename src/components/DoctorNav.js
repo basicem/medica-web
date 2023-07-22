@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "./LogIn/StoreContext";
 
 const DoctorNav = () => {
-  const [state, setState] = useState({ activeItem: "patients" });
+  const [state, setState] = useState({ activeItem: "" });
   const navigate = useNavigate();
   const { user, setUser } = useStore();
 

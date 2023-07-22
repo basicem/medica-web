@@ -68,7 +68,7 @@ function LogIn() {
     if (token && token !== "" && token !== undefined) {
       const response = await getSession();
       setUser(response);
-      navigate("/users");
+      navigate("/home");
     }
   };
 
