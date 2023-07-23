@@ -10,7 +10,7 @@ export const getAppointmentBySlug = async (slug) => {
   return response.data;
 };
 
-export const getAppointmentsByDoctorId = async (id, start, end) => {
-  const response = await API.get(`/api/appointments/doctor/${id}/${start}/${end}`);
+export const getAppointmentsByDoctor = async (params) => {
+  const response = await API.get(`/api/appointments`, { params });
   return response.data;
 };

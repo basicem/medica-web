@@ -11,8 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 
 import InputField from "components/InputField";
-import { postAppointment } from "api/appointments";
+// import { postAppointment } from "api/appointments";
+import InputSelect from "components/InputSelect";
 import InputTime from "components/InputTime";
+import InputSearch from "components/InputSearch";
 
 const StyledContainer = styled(Container)`
   && {
@@ -29,14 +31,6 @@ const StyledTopContainer = styled.div`
   gap: 5rem;
 `;
 
-const TopInfo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-`;
-
 const StyledHeader = styled.h1`
   margin-bottom: 2rem;
 `;
@@ -44,6 +38,16 @@ const StyledHeader = styled.h1`
 const StyledButton = styled(SubmitButton)`
     padding-top: 1rem;
     float: right;
+`;
+
+const StyledDiv = styled.div`
+  && {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    width: 50%;
+    padding: 0.5rem;
+  }
 `;
 
 const validationSchema = Yup.object({
@@ -54,8 +58,8 @@ const validationSchema = Yup.object({
     .required("Required"),
   time: Yup.string().nullable().required("Required"),
   duration: Yup.string()
-    .matches(/^(\d+\.?\d*) minutes$/, "Time must be in the format \"X minutes\"")
-    .required("Required"),
+    .required("Required")
+    .oneOf(["15", "30", "45", "60", "90", "120"]),
 });
 
 const AppointmentCreate = () => {
@@ -108,17 +112,14 @@ const AppointmentCreate = () => {
         }) => (
           <Form>
             <StyledTopContainer>
-              <TopInfo>
+              <StyledDiv>
                 <InputField
                   label="Title"
                   name="title"
                   type="text"
                   placeholder="Meeting with ..."
                 />
-                {/* prbably something else */}
-                {/* like search */}
-                {/* this is TODO */}
-                <InputField
+                <InputSearch
                   label="Patient"
                   name="patient"
                   type="text"
@@ -130,6 +131,8 @@ const AppointmentCreate = () => {
                   type="date"
                   value={values.date}
                 />
+              </StyledDiv>
+              <StyledDiv>
 
                 <InputTime
                   label="Select time"
@@ -138,13 +141,19 @@ const AppointmentCreate = () => {
                   placeholder="11:00"
                 />
 
-                <InputField
+                <InputSelect
                   label="Duration"
                   name="duration"
-                  type="text"
-                  placeholder="45 minutes"
-                />
-              </TopInfo>
+                >
+                  <option value="">Please select duration</option>
+                  <option value="15">15 minutes</option>
+                  <option value="30">30 minutes</option>
+                  <option value="45">45 minutes</option>
+                  <option value="60">60 minutes</option>
+                  <option value="90">90 minutes</option>
+                  <option value="120">120 minutes</option>
+                </InputSelect>
+              </StyledDiv>
             </StyledTopContainer>
             <StyledButton primary style={{ width: "120px" }} type="submit">Create</StyledButton>
           </Form>

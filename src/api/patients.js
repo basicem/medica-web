@@ -5,6 +5,11 @@ export const getPatients = async (params) => {
   return response.data;
 };
 
+export const searchPatients = async (params) => {
+  const response = await API.get("/api/patients/search", { params });
+  return response.data;
+};
+
 export const getPatientBySlug = async (slug) => {
   const response = await API.get(`/api/patients/slug/${slug}`);
   return response.data;

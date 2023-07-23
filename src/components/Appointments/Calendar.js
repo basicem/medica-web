@@ -12,8 +12,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Loader from "components/Loader";
-import { getAppointmentsByDoctorId } from "api/appointments";
-import { useStore } from "components/LogIn/StoreContext";
+import { getAppointmentsByDoctor } from "api/appointments";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -25,7 +24,6 @@ const StyledContainer = styled(Container)`
 const Calendar = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const { user } = useStore();
 
   const [events, setEvents] = useState();
   const navigate = useNavigate();
@@ -40,9 +38,13 @@ const Calendar = () => {
 
   const fetchEvents = async (info) => {
     const { start, end } = info;
+    const filters = {
+      start,
+      end,
+    };
     try {
       setLoading(true);
-      const response = await getAppointmentsByDoctorId(user.id, start, end);
+      const response = await getAppointmentsByDoctor(filters);
       const transformedEvents = response.map((event) => ({
         id: event.id,
         title: event.title,

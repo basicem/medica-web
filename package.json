@@ -16,6 +16,7 @@
     "formik-semantic-ui-react": "^2.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
+    "lodash.debounce": "^4.0.8",
     "moment": "^2.29.4",
     "react": "^16.13.1",
     "react-big-calendar": "^1.8.1",
