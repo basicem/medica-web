@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -38,30 +38,27 @@ const Calendar = () => {
     navigate(`/appointments/${selectedEvent.extendedProps.slug}`);
   };
 
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        setLoading(true);
-        const response = await getAppointmentsByDoctorId(user.id);
-        const transformedEvents = response.map((event) => ({
-          id: event.id,
-          title: event.title,
-          description: event.description,
-          slug: event.slug,
-          color: event.isConfirmed ? "lightgreen" : "lightcoral",
-          start: event.startDate,
-          end: event.endDate,
-        }));
-        setEvents(transformedEvents);
-      } catch (e) {
-        setError("Unable to fetch appointments");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetch();
-  }, []);
+  const fetchEvents = async (info) => {
+    const { start, end } = info;
+    try {
+      setLoading(true);
+      const response = await getAppointmentsByDoctorId(user.id, start, end);
+      const transformedEvents = response.map((event) => ({
+        id: event.id,
+        title: event.title,
+        description: event.description,
+        slug: event.slug,
+        color: event.isConfirmed ? "lightgreen" : "lightcoral",
+        start: event.startDate,
+        end: event.endDate,
+      }));
+      setEvents(transformedEvents);
+    } catch (e) {
+      setError("Unable to fetch appointments");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (error) {
     return (
@@ -77,17 +74,21 @@ const Calendar = () => {
   return (
     <StyledContainer>
       <Loader isActive={loading} inverted />
-      {events && (
+      {/* {events && ( */}
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         // initialView="dayGridWeek"
-        events={events}
         dateClick={handleDateClick}
         eventClick={(info) => handleEventClick(info.event)}
         height={600}
+        // eventSources={[fetchEvents]}
+        // events={events}
+        eventSources={[{ events }]}
+        lazyFetching
+        datesSet={(arg) => fetchEvents(arg)}
       />
-      )}
+      {/* )} */}
     </StyledContainer>
   );
 };

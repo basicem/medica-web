@@ -33,8 +33,6 @@ const StyledDiv = styled.div`
     flex: 2;
     width: 50%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
   }
 `;
 
@@ -57,6 +55,11 @@ const LabelName = styled.label`
 
 const LabelInfo = styled.label`
     padding-bottom: 1rem;
+`;
+
+const LabelInfoDate = styled.label`
+  padding-bottom: 1rem;
+  color: grey;
 `;
 
 const StyledHeader = styled.h1`
@@ -92,7 +95,6 @@ const AppointmentDetail = () => {
           endHours: getHours(new Date(responseAppointment.endDate)),
           endMinutes: getMinutes(new Date(responseAppointment.endDate)),
         });
-        console.log("Vrijeme: ", getHours(new Date(responseAppointment.startDate)));
       } catch (e) {
         setError("Unable to fetch appointment");
       } finally {
@@ -172,19 +174,19 @@ const AppointmentDetail = () => {
               <Divider fitted />
 
               <LabelName>Date and Time:</LabelName>
-              <LabelName>
+              <LabelInfo>
                 <Icon name="calendar alternate outline" />
                 {`${time.startHours}:${time.startMinutes} - ${time.endHours}:${time.endMinutes}`}
-              </LabelName>
+              </LabelInfo>
 
-              <LabelInfo>{format(new Date(appointment.startDate), "EEEE, do MMM yyyy")}</LabelInfo>
+              <LabelInfoDate>{format(new Date(appointment.startDate), "EEEE, do MMM yyyy")}</LabelInfoDate>
 
               {appointment.isVirtual
                 ? (
-                  <StyledDiv>
+                  <div>
                     <LabelName>Virtual: </LabelName>
                     <a href={appointment.link}>{appointment.link}</a>
-                  </StyledDiv>
+                  </div>
                 )
                 : null}
 
