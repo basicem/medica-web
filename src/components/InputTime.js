@@ -1,7 +1,7 @@
 import React from "react";
 import { useField } from "formik";
 import styled from "styled-components";
-import { Form, Radio } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -18,23 +18,54 @@ const StyledErrorMessage = styled.div`
   margin-top: 0.25rem;
 `;
 
-const StyledRadio = styled(Radio)`
-&&& label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+const HiddenRadioInput = styled.input.attrs({ type: "radio" })`
+  position: absolute;
+  opacity: 0;
   cursor: pointer;
-  padding: 0.1rem;
-  margin: 0.3rem;
-  text-align: center;
-  width: 100px;
-}
 `;
+
+const StyledLabelRadio = styled.label`
+  &&& {
+    font-weight: bold;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: lightgray;
+    color: black;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    margin: 0.2rem;
+    text-align: center;
+    width: 100px;
+  }
+
+  ${HiddenRadioInput}:checked + & {
+    background-color: lightblue;
+    color: white;
+  }
+`;
+
+const StyledRadio = ({ label, id, ...props }) => {
+  const [field] = useField(props);
+
+  return (
+    <>
+      <HiddenRadioInput {...field} {...props} id={id} />
+      <StyledLabelRadio htmlFor={id}>
+        {label}
+      </StyledLabelRadio>
+    </>
+  );
+};
 
 const StyledRadioGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 1rem;
+  gap: 0.3rem;
+
 `;
 
 const InputTime = ({ label, ...props }) => {
@@ -51,10 +82,12 @@ const InputTime = ({ label, ...props }) => {
       <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
       <Form.Group>
         <StyledRadioGroup>
-          {timeSlots.map((time) => (
+          {timeSlots.map((time, index) => (
             <Form.Field key={time}>
               <StyledRadio
-                label={`${time}`}
+                type="radio"
+                label={time}
+                id={`radio-${index}`} // Use a unique id for each radio input
                 name={field.name}
                 value={time}
                 checked={field.value === time}
