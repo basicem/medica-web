@@ -144,7 +144,7 @@ const AppointmentDetail = () => {
                 />
                 <Card.Content>
                   <Card.Header>{`${patient.firstName} ${patient.lastName}`}</Card.Header>
-                  <Card.Meta style={{ color: "#0E6EB8" }}>{patient.email}</Card.Meta>
+                  <Card.Meta href={`mailto:${patient.email}`} style={{ color: "#0E6EB8" }}>{patient.email}</Card.Meta>
                   <Card.Description>
                     {`${patient.address}, ${patient.city}`}
                   </Card.Description>

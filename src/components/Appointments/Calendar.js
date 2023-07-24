@@ -6,7 +6,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import {
   Container,
-  Icon, Segment,
+  Icon, Segment, Divider,
 } from "semantic-ui-react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,11 @@ const StyledContainer = styled(Container)`
   flex-wrap: wrap;
   flex-direction: column;
   padding: 0.5rem;
+`;
+
+const StyledHeader = styled.h1`
+  margin-bottom: 1rem;
+  margin-top: 0;
 `;
 
 const Calendar = () => {
@@ -76,21 +81,21 @@ const Calendar = () => {
   return (
     <StyledContainer>
       <Loader isActive={loading} inverted />
-      {/* {events && ( */}
+      <StyledHeader>Appointments</StyledHeader>
+      <Divider />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        // initialView="dayGridWeek"
         dateClick={handleDateClick}
         eventClick={(info) => handleEventClick(info.event)}
-        height={600}
-        // eventSources={[fetchEvents]}
-        // events={events}
         eventSources={[{ events }]}
         lazyFetching
         datesSet={(arg) => fetchEvents(arg)}
+        buttonText={{
+          today: "Today",
+        }}
+        height={600}
       />
-      {/* )} */}
     </StyledContainer>
   );
 };
