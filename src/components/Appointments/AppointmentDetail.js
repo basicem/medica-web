@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container, Segment, Icon, Label, Image, Card, Breadcrumb, Divider,
+  Container, Segment, Icon, Image, Card, Breadcrumb, Divider, Dropdown, Button,
 } from "semantic-ui-react";
 import { useParams, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { format, getHours, getMinutes } from "date-fns";
+import { toast } from "react-toastify";
 
-import { getAppointmentBySlug } from "api/appointments";
-import { getPatientById } from "api/patients";
+import ModalUpdateAppointmentStatus from "components/Appointments/ModalUpdateAppointmentStatus";
 import Loader from "components/Loader";
+import { updateStatus, getAppointmentBySlug } from "api/appointments";
+import { STATUS } from "utils/constants";
 
 const StyledContainer = styled(Container)`
   && {
@@ -70,6 +72,14 @@ const StyledHeader = styled.h1`
 const StyledTitle = styled.h2`
   margin-bottom: 0.5rem;
   margin-top: 1rem;
+  flex: 4;
+`;
+
+const StyledTopDiv = styled.div`
+&& {
+  display: flex;
+  flex-direction: row;
+}
 `;
 
 const AppointmentDetail = () => {
@@ -81,14 +91,47 @@ const AppointmentDetail = () => {
 
   const [time, setTime] = useState({});
 
+  const [status, setStatus] = useState(null);
+  const [modal, setModal] = useState(false);
+
+  const handleClick = () => {
+    setModal(!modal);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const data = {
+        status,
+      };
+      await updateStatus(slug, data);
+      setModal(!modal);
+    } catch (err) {
+      toast.error("Unable to update appointment!");
+    } finally {
+      window.location.reload();
+    }
+  };
+
+  const handleStatusChange = (e, { value }) => {
+    setModal(!modal);
+    setStatus(value);
+  };
+
+  const options = [
+    { key: "confirmed", text: STATUS.CONFIRMED, value: STATUS.CONFIRMED },
+    { key: "canceled", text: STATUS.CANCELED, value: STATUS.CANCELED },
+    {
+      key: "pending", text: STATUS.PENDING, value: STATUS.PENDING, disabled: true,
+    },
+  ];
+
   useEffect(() => {
     const fetch = async () => {
       try {
         const responseAppointment = await getAppointmentBySlug(slug);
-        const responsePatient = await getPatientById(responseAppointment.patient_id);
         setAppointment(responseAppointment);
-        setPatient(responsePatient);
-
+        setPatient(responseAppointment.patient);
+        setStatus(responseAppointment.status);
         setTime({
           startHours: getHours(new Date(responseAppointment.startDate)),
           startMinutes: getMinutes(new Date(responseAppointment.startDate)),
@@ -120,11 +163,12 @@ const AppointmentDetail = () => {
       <Loader active={loading}>Loading</Loader>
       {appointment && patient && (
         <StyledContainer>
+          <ModalUpdateAppointmentStatus selected={status} show={modal} handleClick={handleClick} handleDelete={handleDelete} />
           <StyledHeader>Appointment Details</StyledHeader>
           <Breadcrumb>
             <Breadcrumb.Section link><Link to="/appointments">Appointments</Link></Breadcrumb.Section>
             <Breadcrumb.Divider />
-            <Breadcrumb.Section active>Create appointment</Breadcrumb.Section>
+            <Breadcrumb.Section active>Appointment Details</Breadcrumb.Section>
           </Breadcrumb>
           <Divider />
           <StyledDetailsContainer>
@@ -157,16 +201,18 @@ const AppointmentDetail = () => {
             </StyledDivPatient>
 
             <StyledDiv>
-              <Label
-                icon
-                color={appointment.isConfirmed ? "green" : "red"}
-                style={{ alignSelf: "flex-start" }}
-              >
-                <Icon name={appointment.isConfirmed ? "check" : "times"} />
-                {appointment.isConfirmed ? "Confirmed" : "Not Confirmed"}
-              </Label>
+              <StyledTopDiv>
+                <StyledTitle>{appointment.title}</StyledTitle>
 
-              <StyledTitle>{appointment.title}</StyledTitle>
+                <Dropdown
+                  selection
+                  fluid
+                  options={options}
+                  value={appointment.status}
+                  onChange={handleStatusChange}
+                  style={{ alignSelf: "flex-start", flex: 1 }}
+                />
+              </StyledTopDiv>
 
               <LabelName>Description:</LabelName>
               <LabelInfo>{appointment.description}</LabelInfo>

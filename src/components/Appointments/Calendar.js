@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import Loader from "components/Loader";
 import { getAppointmentsByDoctor } from "api/appointments";
+import { STATUS } from "utils/constants";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -55,7 +56,7 @@ const Calendar = () => {
         title: event.title,
         description: event.description,
         slug: event.slug,
-        color: event.isConfirmed ? "lightgreen" : "lightcoral",
+        color: event.status === STATUS.CONFIRMED ? "lightgreen" : "lightcoral",
         start: event.startDate,
         end: event.endDate,
       }));
@@ -94,7 +95,7 @@ const Calendar = () => {
         buttonText={{
           today: "Today",
         }}
-        height={600}
+        height={900}
       />
     </StyledContainer>
   );

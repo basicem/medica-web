@@ -21,6 +21,7 @@ import Forbidden from "./Forbidden";
 import Calendar from "./Appointments/Calendar";
 import AppointmentCreate from "./Appointments/AppointmentCreate";
 import AppointmentDetail from "./Appointments/AppointmentDetail";
+import AppointmentConfirmation from "./Appointments/AppointmentConfirmation";
 
 const Root = () => {
   const [initialized, setInitialized] = useState(false);
@@ -41,7 +42,9 @@ const Root = () => {
     fetch();
   }, []);
 
-  if (!initialized) { return null; }
+  if (!initialized) {
+    return null;
+  }
 
   return (
     <div>
@@ -61,29 +64,45 @@ const Root = () => {
         {user?.role === "Doctor" && <DoctorNav />}
 
         <Routes>
+
+          {/* Not protected Routes, no tekn required */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/appointments" element={<Calendar />} />
-          <Route path="/appointments/create" element={<AppointmentCreate />} />
-          <Route path="/appointments/:slug" element={<AppointmentDetail />} />
+          <Route path="/appointments/patients/:slug" element={<AppointmentConfirmation />} />
 
           {/* Protected routes with ProtectedRoute component */}
+
+          <Route
+            path="/appointments"
+            element={<ProtectedRoute element={<Calendar />} allowedRoles={["Doctor"]} />}
+
+          />
+          <Route
+            path="/appointments/create"
+            element={<ProtectedRoute element={<AppointmentCreate />} allowedRoles={["Doctor"]} />}
+          />
+
+          <Route
+            path="/appointments/:slug"
+            element={<ProtectedRoute element={<AppointmentDetail />} allowedRoles={["Doctor"]} />}
+          />
+
           <Route
             path="/patients"
-            element={<ProtectedRoute element={<Patients />} allowedRoles={["Admin", "Doctor"]} />}
+            element={<ProtectedRoute element={<Patients />} allowedRoles={["Doctor"]} />}
           />
           <Route
             path="/patients/create"
-            element={<ProtectedRoute element={<PatientCreate />} allowedRoles={["Admin", "Doctor"]} />}
+            element={<ProtectedRoute element={<PatientCreate />} allowedRoles={["Doctor"]} />}
           />
           <Route
             path="/patients/:slug"
-            element={<ProtectedRoute element={<PatientDetail />} allowedRoles={["Admin", "Doctor"]} />}
+            element={<ProtectedRoute element={<PatientDetail />} allowedRoles={["Doctor"]} />}
           />
           <Route
             path="/patients/edit/:slug"
-            element={<ProtectedRoute element={<PatientEdit />} allowedRoles={["Admin", "Doctor"]} />}
+            element={<ProtectedRoute element={<PatientEdit />} allowedRoles={["Doctor"]} />}
           />
           <Route
             path="/users"

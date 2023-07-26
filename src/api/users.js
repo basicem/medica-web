@@ -10,8 +10,8 @@ export const postUser = async (data) => {
   return response.data;
 };
 
-export const getUserBySlug = async (slug) => {
-  const response = await API.get(`/api/users/${slug}`);
+export const getUserById = async (id) => {
+  const response = await API.get(`/api/users/${id}`);
   return response.data;
 };
 
@@ -20,12 +20,12 @@ export const editUser = async (id, data) => {
   return response.data;
 };
 
-export const logIn = async (data) => {
-  const response = await API.post(`/api/auth/login`, data);
+export const getSession = async () => {
+  const response = await API.get("/api/auth/session");
   return response.data;
 };
 
-export const getSession = async () => {
-  const response = await API.get("/api/auth/session");
+export const logIn = async (data) => {
+  const response = await API.post(`/api/auth/login`, data);
   return response.data;
 };

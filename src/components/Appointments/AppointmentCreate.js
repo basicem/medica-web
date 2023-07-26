@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Container, Divider, Breadcrumb, Dropdown, FormField, Segment, Icon, Input,
+  Container, Divider, Breadcrumb, Dropdown, FormField, Segment, Icon,
 } from "semantic-ui-react";
 import { Form, SubmitButton } from "formik-semantic-ui-react";
 import { Formik, Field } from "formik";
@@ -19,6 +19,7 @@ import InputCheckbox from "components/InputCheckbox";
 
 import { searchPatients } from "api/patients";
 import { postAppointment } from "api/appointments";
+import { STATUS } from "utils/constants";
 
 const StyledContainer = styled(Container)`
   && {
@@ -139,7 +140,7 @@ const AppointmentCreate = () => {
         duration: values.duration,
         isVirtual: values.isVirtual,
         link: values.link,
-        isConfirmed: false,
+        status: STATUS.PENDING,
       });
       toast.success("New appointment added!");
       navigate("/appointments/");
