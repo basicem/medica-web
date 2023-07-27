@@ -98,17 +98,16 @@ const AppointmentDetail = () => {
     setModal(!modal);
   };
 
-  const handleDelete = async () => {
+  const handleUpdate = async () => {
     try {
       const data = {
         status,
       };
       await updateStatus(slug, data);
       setModal(!modal);
+      setAppointment({ ...appointment, status });
     } catch (err) {
       toast.error("Unable to update appointment!");
-    } finally {
-      window.location.reload();
     }
   };
 
@@ -118,11 +117,11 @@ const AppointmentDetail = () => {
   };
 
   const options = [
-    { key: "confirmed", text: STATUS.CONFIRMED, value: STATUS.CONFIRMED },
-    { key: "canceled", text: STATUS.CANCELED, value: STATUS.CANCELED },
     {
       key: "pending", text: STATUS.PENDING, value: STATUS.PENDING, disabled: true,
     },
+    { key: "confirmed", text: STATUS.CONFIRMED, value: STATUS.CONFIRMED },
+    { key: "canceled", text: STATUS.CANCELED, value: STATUS.CANCELED },
   ];
 
   useEffect(() => {
@@ -163,7 +162,7 @@ const AppointmentDetail = () => {
       <Loader active={loading}>Loading</Loader>
       {appointment && patient && (
         <StyledContainer>
-          <ModalUpdateAppointmentStatus selected={status} show={modal} handleClick={handleClick} handleDelete={handleDelete} />
+          <ModalUpdateAppointmentStatus selected={status} show={modal} handleClick={handleClick} handleUpdate={handleUpdate} />
           <StyledHeader>Appointment Details</StyledHeader>
           <Breadcrumb>
             <Breadcrumb.Section link><Link to="/appointments">Appointments</Link></Breadcrumb.Section>

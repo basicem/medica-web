@@ -4,14 +4,13 @@ import {
 } from "semantic-ui-react";
 
 function ModalUpdateAppointmentStatus({
-  show, handleClick, handleDelete, selected,
+  show, handleClick, handleUpdate, selected,
 }) {
   const [loading, setLoading] = useState(false);
 
   const onApply = async () => {
     setLoading(true);
-    handleDelete();
-    setLoading(false);
+    handleUpdate();
   };
 
   return (
