@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "./LogIn/StoreContext";
 
 const AdminNav = () => {
-  const [state, setState] = useState({ activeItem: "users" });
+  const [state, setState] = useState({ activeItem: "" });
   const navigate = useNavigate();
   const { user, setUser } = useStore();
 
