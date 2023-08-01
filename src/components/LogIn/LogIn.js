@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import { logIn, getSession } from "api/users";
 import InputField from "components/InputField";
+import { toast } from "react-toastify";
 import { useStore } from "./StoreContext";
 
 const StyledTopContainer = styled.div`
@@ -62,13 +63,16 @@ function LogIn() {
   const { setUser } = useStore();
 
   const handleSubmit = async (values) => {
-    const token = await logIn(values);
-    localStorage.setItem("Bearer", token);
-    // console.log("token: ", token);
-    if (token && token !== "" && token !== undefined) {
-      const response = await getSession();
-      setUser(response);
-      navigate("/home");
+    try {
+      const token = await logIn(values);
+      localStorage.setItem("Bearer", token);
+      if (token && token !== "" && token !== undefined) {
+        const response = await getSession();
+        setUser(response);
+        navigate("/home");
+      }
+    } catch (err) {
+      toast.error("Invalid email or password!");
     }
   };
 

@@ -75,8 +75,6 @@ const AppointmentConfirmation = () => {
   const [status, setStatus] = useState(false);
 
   const [appointment, setAppointment] = useState("");
-  const [patient, setPatient] = useState("");
-  const [doctor, setDoctor] = useState("");
   const [time, setTime] = useState({});
 
   const { slug } = useParams();
@@ -108,8 +106,6 @@ const AppointmentConfirmation = () => {
         setLoading(true);
         const responseAppointment = await getAppointmentBySlugPublic(slug);
         setAppointment(responseAppointment);
-        setPatient(responseAppointment.patient);
-        setDoctor(responseAppointment.doctor);
         setStatus(responseAppointment.status);
         setTime({
           startHours: formatTime(getHours(new Date(responseAppointment.startDate)),
@@ -141,13 +137,13 @@ const AppointmentConfirmation = () => {
   return (
     <StyledContainer>
       <Loader active={loading}>Loading</Loader>
-      {appointment && patient && (
+      {appointment && (
         <StyledDiv>
           <Image style={{ height: "auto", maxWidth: "200px" }} src={calendar} size="tiny" />
-          <StyledHeader>{`Dear ${patient.firstName} , you have a new appointment scheduled.`}</StyledHeader>
+          <StyledHeader>{`Dear ${appointment.patient.firstName} , you have a new appointment scheduled.`}</StyledHeader>
 
           <StyledInfo>
-            {`${time.startHours} - ${time.endHours} | Dr. ${doctor.firstName} ${doctor.lastName}`}
+            {`${time.startHours} - ${time.endHours} | Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}`}
           </StyledInfo>
 
           {appointment.isVirtual && (

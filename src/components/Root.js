@@ -5,8 +5,9 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Patients from "components/Patients/Patients";
 import { getSession } from "api/users";
+import Patients from "components/Patients/Patients";
+import { ROLES } from "utils/constants";
 import PatientCreate from "./Patients/PatientCreate";
 import PatientDetail from "./Patients/PatientDetail";
 import PatientEdit from "./Patients/PatientEdit";
@@ -75,38 +76,53 @@ const Root = () => {
 
           <Route
             path="/appointments"
-            element={<ProtectedRoute element={<Calendar />} allowedRoles={["Doctor"]} />}
+            element={(
+              <ProtectedRoute
+                element={<Calendar />}
+                allowedRoles={[ROLES.DOCTOR]}
+              />
+)}
 
           />
           <Route
             path="/appointments/create"
-            element={<ProtectedRoute element={<AppointmentCreate />} allowedRoles={["Doctor"]} />}
+            element={(
+              <ProtectedRoute
+                element={<AppointmentCreate />}
+                allowedRoles={[ROLES.DOCTOR]}
+              />
+)}
           />
 
           <Route
             path="/appointments/:slug"
-            element={<ProtectedRoute element={<AppointmentDetail />} allowedRoles={["Doctor"]} />}
+            element={(
+              <ProtectedRoute
+                element={<AppointmentDetail />}
+                allowedRoles={[ROLES.DOCTOR]}
+              />
+)}
           />
 
           <Route
             path="/patients"
-            element={<ProtectedRoute element={<Patients />} allowedRoles={["Doctor"]} />}
+            element={<ProtectedRoute element={<Patients />} allowedRoles={[ROLES.DOCTOR]} />}
           />
           <Route
             path="/patients/create"
-            element={<ProtectedRoute element={<PatientCreate />} allowedRoles={["Doctor"]} />}
+            element={<ProtectedRoute element={<PatientCreate />} allowedRoles={[ROLES.DOCTOR]} />}
           />
           <Route
             path="/patients/:slug"
-            element={<ProtectedRoute element={<PatientDetail />} allowedRoles={["Doctor"]} />}
+            element={<ProtectedRoute element={<PatientDetail />} allowedRoles={[ROLES.DOCTOR]} />}
           />
           <Route
             path="/patients/edit/:slug"
-            element={<ProtectedRoute element={<PatientEdit />} allowedRoles={["Doctor"]} />}
+            element={<ProtectedRoute element={<PatientEdit />} allowedRoles={[ROLES.DOCTOR]} />}
           />
           <Route
             path="/users"
-            element={<ProtectedRoute element={<UsersRoot />} allowedRoles={["Admin"]} />}
+            element={<ProtectedRoute element={<UsersRoot />} allowedRoles={[ROLES.ADMIN]} />}
           />
 
           {/* Route for forbidden access */}

@@ -115,7 +115,6 @@ const AppointmentCreate = () => {
   const [error, setError] = useState("");
 
   const [results, setResults] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const initialValues = {
     title: "",
@@ -185,7 +184,6 @@ const AppointmentCreate = () => {
   }, 300);
 
   const handleSearchChange = (e, { searchQuery }) => {
-    setSelectedItem(null);
     debouncedSearch(searchQuery);
   };
 

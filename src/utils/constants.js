@@ -8,3 +8,8 @@ export const STATUS = {
   CONFIRMED: "Confirmed",
   CANCELED: "Canceled",
 };
+
+export const ROLES = {
+  ADMIN: "Admin",
+  DOCTOR: "Doctor",
+};

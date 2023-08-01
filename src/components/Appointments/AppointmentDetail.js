@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container, Segment, Icon, Image, Card, Breadcrumb, Divider, Dropdown, Button,
+  Container, Segment, Icon, Image, Card, Breadcrumb, Divider, Dropdown,
 } from "semantic-ui-react";
 import { useParams, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";

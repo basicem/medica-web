@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { toast } from "react-toastify";
 
 import interactionPlugin from "@fullcalendar/interaction";
 import {
@@ -35,6 +36,12 @@ const Calendar = () => {
   const navigate = useNavigate();
 
   const handleDateClick = (arg) => {
+    const selectedDate = new Date(arg.dateStr);
+    const currentDate = new Date();
+    if (selectedDate < currentDate) {
+      toast.error("Unable to create an appointment in the past!");
+      return;
+    }
     navigate("/appointments/create", { state: { date: arg.dateStr } });
   };
 
