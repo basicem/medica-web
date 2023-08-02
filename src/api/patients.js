@@ -34,3 +34,13 @@ export const deletePatient = async (id) => {
   const response = await API.delete(`/api/patients/${id}`);
   return response.data;
 };
+
+export const getMedications = async (params) => {
+  const response = await API.get("/api/patients/medication", { params });
+  return response.data;
+};
+
+export const postMedication = async (data) => {
+  const response = await API.post("/api/patients/medication", data);
+  return response.data;
+};
