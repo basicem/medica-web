@@ -35,7 +35,7 @@ const initialValues = {
   name: "",
   dose: "",
   frequency: "",
-  prescribedOn: new Date().toISOString().slice(0, 10),
+  prescribedOn: new Date().toISOString(),
 };
 
 const validationSchema = Yup.object({
@@ -60,6 +60,7 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
     setLoading(true);
     handleCreate(values);
     handleClick();
+    setLoading(false);
   };
 
   return (
