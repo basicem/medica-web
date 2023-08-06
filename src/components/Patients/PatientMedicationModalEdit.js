@@ -42,14 +42,6 @@ const FlexContainer = styled.div`
   width: 100%;
 `;
 
-const initialValues = {
-  name: "",
-  doseValue: "",
-  doseMeasurement: "",
-  frequency: "",
-  prescribedOn: new Date().toISOString(),
-};
-
 const doseOptions = Object.keys(DOSE_MEASUREMENT).map((key) => ({
   key,
   value: key,
@@ -78,14 +70,14 @@ const validationSchema = Yup.object({
   frequency: Yup.string().oneOf(frequencyValues).required("Please select frequency"),
 });
 
-const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
+const PatientMedicationModalEdit = ({
+  selectedMedication, show, handleClick, handleEdit,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    handleCreate(values);
-    handleClick();
-    setLoading(false);
+    handleEdit(values);
   };
 
   return (
@@ -93,10 +85,12 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
       open={show}
       onClose={handleClick}
     >
-      <Modal.Header>Add Medication</Modal.Header>
+      <Modal.Header>Edit Medication</Modal.Header>
       <Modal.Content>
+        {selectedMedication
+        && (
         <Formik
-          initialValues={initialValues}
+          initialValues={selectedMedication}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -141,7 +135,7 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
                   </Button>
                   <Button
                     type="submit"
-                    content="Create"
+                    content="Update"
                     positive
                     disabled={loading}
                     loading={loading}
@@ -151,10 +145,11 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
             </Form>
           )}
         </Formik>
+        )}
       </Modal.Content>
 
     </Modal>
   );
 };
 
-export default MedicationModalCreate;
+export default PatientMedicationModalEdit;

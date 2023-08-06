@@ -10,7 +10,7 @@ import {
   getPatientBySlug, deletePatient,
 } from "api/patients";
 import ModalDeletePatient from "components/Patients/PatientModalDelete";
-import MedicationPatient from "components/Medications/MedicationPatient";
+import PatientMedication from "components/Patients/PatientMedication";
 import Vitals from "components/Vitals/Vitals";
 
 const StyledContainer = styled(Container)`
@@ -201,7 +201,7 @@ const PatientDetail = () => {
           <Vitals patientId={patient.id} />
 
           <Divider fitted />
-          <MedicationPatient patientId={patient.id} />
+          <PatientMedication patientId={patient.id} />
 
         </StyledContainer>
       )}

@@ -3,7 +3,7 @@ import {
   Button, Header, Icon, Modal,
 } from "semantic-ui-react";
 
-function MedicationModalDelete({ show, handleClick, handleDelete }) {
+function PatientMedicationModalDelete({ show, handleClick, handleDelete }) {
   const [loading, setLoading] = useState(false);
 
   const onApply = async () => {
@@ -39,4 +39,4 @@ function MedicationModalDelete({ show, handleClick, handleDelete }) {
   );
 }
 
-export default MedicationModalDelete;
+export default PatientMedicationModalDelete;

@@ -4,7 +4,7 @@ import {
 } from "semantic-ui-react";
 import styled from "styled-components";
 
-import MedicationRow from "./MedicationRow";
+import PatientMedicationRow from "./PatientMedicationRow";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -14,7 +14,7 @@ const StyledContainer = styled(Container)`
   min-width: 0;
 `;
 
-const MedicationTable = ({
+const PatientMedicationTable = ({
   rows, error, patient, handleDelete, handleEdit,
 }) => {
   if (error) {
@@ -32,7 +32,7 @@ const MedicationTable = ({
     return (
       <StyledContainer>
         <Segment inverted color="blue" tertiary>
-          <Icon name="users" />
+          <Icon name="pills" />
           Medications not found!
         </Segment>
       </StyledContainer>
@@ -54,7 +54,7 @@ const MedicationTable = ({
 
         <Table.Body>
           {rows?.map((m) => (
-            <MedicationRow
+            <PatientMedicationRow
               key={m.id}
               medication={m}
               patient={patient}
@@ -68,4 +68,4 @@ const MedicationTable = ({
   );
 };
 
-export default MedicationTable;
+export default PatientMedicationTable;

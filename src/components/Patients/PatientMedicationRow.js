@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Table, Button } from "semantic-ui-react";
 import { format } from "date-fns";
 
-import MedicationModalDelete from "./MedicationModalDelete";
-import MedicationModalEdit from "./MedicationModalEdit";
+import PatientMedicationModalDelete from "./PatientMedicationModalDelete";
+import PatientMedicationModalEdit from "./PatientMedicationModalEdit";
 
-const MedicationRow = ({
+const PatientMedicationRow = ({
   medication, patient, handleDelete, handleEdit,
 }) => {
   const [modalDelete, setModalDelete] = useState(false);
@@ -33,12 +33,12 @@ const MedicationRow = ({
   return (
 
     <Table.Row>
-      <MedicationModalDelete
+      <PatientMedicationModalDelete
         show={modalDelete}
         handleClick={handleClickDelete}
         handleDelete={onDelete}
       />
-      <MedicationModalEdit
+      <PatientMedicationModalEdit
         show={modalEdit}
         handleClick={handleClickEdit}
         handleEdit={onEdit}
@@ -56,4 +56,4 @@ const MedicationRow = ({
   );
 };
 
-export default MedicationRow;
+export default PatientMedicationRow;

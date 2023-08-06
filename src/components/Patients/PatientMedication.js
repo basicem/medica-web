@@ -10,8 +10,8 @@ import { PAGINATION } from "utils/constants";
 import {
   getMedications, postMedication, deleteMedication, editMedication,
 } from "api/patients";
-import MedicationTable from "./MedicationTable";
-import MedicationModalCreate from "./MedicationModalCreate";
+import PatientMedicationTable from "./PatientMedicationTable";
+import PatientMedicationModalCreate from "./PatientMedicationModalCreate";
 
 const StyledContainer = styled(Container)`
   && {
@@ -39,7 +39,7 @@ const ButtonsContainer = styled.div`
   flex-direction: row;
 `;
 
-const MedicationPatient = ({ patientId }) => {
+const PatientMedication = ({ patientId }) => {
   const [modalMedication, setModalMedication] = useState(false);
   const [filters, setFilters] = useState({
     page: PAGINATION.PAGE,
@@ -102,7 +102,7 @@ const MedicationPatient = ({ patientId }) => {
         setTotalPages(responseMedications.totalPages);
         setRows(responseMedications.rows);
       } catch (e) {
-        setError("Unable to fetch patient");
+        setError("Unable to fetch medications");
       } finally {
         setLoading(false);
       }
@@ -114,7 +114,7 @@ const MedicationPatient = ({ patientId }) => {
     return (
       <StyledContainer>
         <Segment inverted color="red" secondary>
-          <Icon name="times circle outline" />
+          <Icon name="pills" />
           { error }
         </Segment>
       </StyledContainer>
@@ -123,7 +123,7 @@ const MedicationPatient = ({ patientId }) => {
 
   return (
     <StyledContainer>
-      <MedicationModalCreate
+      <PatientMedicationModalCreate
         show={modalMedication}
         handleClick={handleClickMedication}
         handleCreate={handleCreate}
@@ -140,7 +140,7 @@ const MedicationPatient = ({ patientId }) => {
       <StyledContainer>
         <Segment basic>
           <Loader isActive={loading} inverted />
-          <MedicationTable
+          <PatientMedicationTable
             rows={rows}
             error={error}
             patient={patientId}
@@ -160,4 +160,4 @@ const MedicationPatient = ({ patientId }) => {
   );
 };
 
-export default MedicationPatient;
+export default PatientMedication;

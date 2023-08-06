@@ -42,6 +42,14 @@ const FlexContainer = styled.div`
   width: 100%;
 `;
 
+const initialValues = {
+  name: "",
+  doseValue: "",
+  doseMeasurement: "",
+  frequency: "",
+  prescribedOn: new Date().toISOString(),
+};
+
 const doseOptions = Object.keys(DOSE_MEASUREMENT).map((key) => ({
   key,
   value: key,
@@ -70,14 +78,14 @@ const validationSchema = Yup.object({
   frequency: Yup.string().oneOf(frequencyValues).required("Please select frequency"),
 });
 
-const MedicationModalEdit = ({
-  selectedMedication, show, handleClick, handleEdit,
-}) => {
+const PatientMedicationModalCreate = ({ show, handleClick, handleCreate }) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    handleEdit(values);
+    handleCreate(values);
+    handleClick();
+    setLoading(false);
   };
 
   return (
@@ -85,12 +93,10 @@ const MedicationModalEdit = ({
       open={show}
       onClose={handleClick}
     >
-      <Modal.Header>Edit Medication</Modal.Header>
+      <Modal.Header>Add Medication</Modal.Header>
       <Modal.Content>
-        {selectedMedication
-        && (
         <Formik
-          initialValues={selectedMedication}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -135,7 +141,7 @@ const MedicationModalEdit = ({
                   </Button>
                   <Button
                     type="submit"
-                    content="Update"
+                    content="Create"
                     positive
                     disabled={loading}
                     loading={loading}
@@ -145,11 +151,10 @@ const MedicationModalEdit = ({
             </Form>
           )}
         </Formik>
-        )}
       </Modal.Content>
 
     </Modal>
   );
 };
 
-export default MedicationModalEdit;
+export default PatientMedicationModalCreate;
