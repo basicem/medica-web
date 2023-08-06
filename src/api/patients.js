@@ -35,12 +35,22 @@ export const deletePatient = async (id) => {
   return response.data;
 };
 
-export const getMedications = async (params) => {
-  const response = await API.get("/api/patients/medication", { params });
+export const getMedications = async (id, params) => {
+  const response = await API.get(`/api/patients/${id}/medications`, { params });
   return response.data;
 };
 
-export const postMedication = async (data) => {
-  const response = await API.post("/api/patients/medication", data);
+export const postMedication = async (id, data) => {
+  const response = await API.post(`/api/patients/${id}/medications`, data);
+  return response.data;
+};
+
+export const deleteMedication = async (id, medicationId) => {
+  const response = await API.delete(`/api/patients/${id}/medications/${medicationId}`);
+  return response.data;
+};
+
+export const editMedication = async (id, medicationId, data) => {
+  const response = await API.put(`/api/patients/${id}/medications/${medicationId}`, data);
   return response.data;
 };

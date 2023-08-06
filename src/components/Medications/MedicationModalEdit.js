@@ -7,7 +7,10 @@ import * as Yup from "yup";
 import { Form } from "formik-semantic-ui-react";
 import { Formik } from "formik";
 
+import { DOSE_MEASUREMENT, FREQUENCY } from "utils/constants";
+
 import InputField from "components/InputField";
+import InputSelect from "components/InputSelect";
 
 const StyledTopContainer = styled.div`
   display: flex;
@@ -31,36 +34,50 @@ const ButtonGroup = styled.div`
   float: right;
 `;
 
-const initialValues = {
-  name: "",
-  dose: "",
-  frequency: "",
-  prescribedOn: new Date().toISOString(),
-};
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+`;
+
+const doseOptions = Object.keys(DOSE_MEASUREMENT).map((key) => ({
+  key,
+  value: key,
+  text: DOSE_MEASUREMENT[key],
+}));
+
+const frequencyOptions = Object.keys(FREQUENCY).map((key) => ({
+  key,
+  value: key,
+  text: FREQUENCY[key],
+}));
+
+const frequencyValues = frequencyOptions.map((option) => option.text);
+
+const doseMeasurementValues = doseOptions.map((option) => option.text);
 
 const validationSchema = Yup.object({
   name: Yup.string()
+    .typeError("Name value must be a string")
     .max(15, "Must be 15 characters or less")
     .required("Required"),
-  dose: Yup.string()
-    .max(20, "Must be 20 characters or less")
+  doseValue: Yup.number()
+    .typeError("Dose value must be a number")
     .required("Required"),
-  frequency: Yup.string()
-    .matches(
-      /^(?:(?:\d+\s)?(?:po|per os|by mouth|bid|tid|qid|hs|prn|stat|ac|pc)\b)|\w+$/i,
-      "Invalid frequency format",
-    )
-    .required("Required"),
+  doseMeasurement: Yup.string().oneOf(doseMeasurementValues).required("Please select dose measurement"),
+  frequency: Yup.string().oneOf(frequencyValues).required("Please select frequency"),
 });
 
-const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
+const MedicationModalEdit = ({
+  selectedMedication, show, handleClick, handleEdit,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    handleCreate(values);
-    handleClick();
-    setLoading(false);
+    handleEdit(values);
   };
 
   return (
@@ -68,10 +85,12 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
       open={show}
       onClose={handleClick}
     >
-      <Modal.Header>Add Medication</Modal.Header>
+      <Modal.Header>Edit Medication</Modal.Header>
       <Modal.Content>
+        {selectedMedication
+        && (
         <Formik
-          initialValues={initialValues}
+          initialValues={selectedMedication}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -85,19 +104,26 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
                     type="text"
                     placeholder="Ibuprofen"
                   />
+                  <FlexContainer>
+                    <InputField
+                      label="Dose Value"
+                      name="doseValue"
+                      type="text"
+                      placeholder="100"
+                    />
+                    <InputSelect
+                      label="Dose Measurement"
+                      name="doseMeasurement"
+                      options={doseOptions}
+                      placeholder="Please select dose measurement"
+                    />
+                  </FlexContainer>
 
-                  <InputField
-                    label="Dose"
-                    name="dose"
-                    type="text"
-                    placeholder="2 mg"
-                  />
-
-                  <InputField
+                  <InputSelect
                     label="Frequency"
                     name="frequency"
-                    type="text"
-                    placeholder="bid"
+                    options={frequencyOptions}
+                    placeholder="Please select frequency"
                   />
 
                 </TopInfo>
@@ -109,7 +135,7 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
                   </Button>
                   <Button
                     type="submit"
-                    content="Create"
+                    content="Update"
                     positive
                     disabled={loading}
                     loading={loading}
@@ -119,10 +145,11 @@ const MedicationModalCreate = ({ show, handleClick, handleCreate }) => {
             </Form>
           )}
         </Formik>
+        )}
       </Modal.Content>
 
     </Modal>
   );
 };
 
-export default MedicationModalCreate;
+export default MedicationModalEdit;

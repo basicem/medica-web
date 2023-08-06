@@ -14,7 +14,9 @@ const StyledContainer = styled(Container)`
   min-width: 0;
 `;
 
-const MedicationTable = ({ rows, error }) => {
+const MedicationTable = ({
+  rows, error, patient, handleDelete, handleEdit,
+}) => {
   if (error) {
     return (
       <StyledContainer>
@@ -46,12 +48,19 @@ const MedicationTable = ({ rows, error }) => {
             <Table.HeaderCell>Dose</Table.HeaderCell>
             <Table.HeaderCell>Frequency</Table.HeaderCell>
             <Table.HeaderCell>Prescribed On</Table.HeaderCell>
+            <Table.HeaderCell />
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {rows?.map((m) => (
-            <MedicationRow key={m.id} medication={m} />
+            <MedicationRow
+              key={m.id}
+              medication={m}
+              patient={patient}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
           ))}
         </Table.Body>
       </Table>

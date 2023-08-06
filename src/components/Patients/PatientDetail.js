@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
-  Container, Divider, Icon, Image, Button, Segment, Loader, Breadcrumb, Pagination,
+  Container, Divider, Icon, Image, Button, Segment, Loader, Breadcrumb,
 } from "semantic-ui-react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-import { PAGINATION } from "utils/constants";
-
 import {
-  getPatientBySlug, deletePatient, getMedications, postMedication,
+  getPatientBySlug, deletePatient,
 } from "api/patients";
 import ModalDeletePatient from "components/Patients/PatientModalDelete";
-import MedicationTable from "./MedicationTable";
-import MedicationModalCreate from "./MedicationModalCreate";
+import MedicationPatient from "components/Medications/MedicationPatient";
+import Vitals from "components/Vitals/Vitals";
 
 const StyledContainer = styled(Container)`
   && {
@@ -29,14 +27,6 @@ const StyledTopContainer = styled.div`
   flex-direction: row;
   gap: 5rem;
   margin: 2rem;
-`;
-
-const StyledMedicationTopContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  gap: 5rem;
-  margin-top: 1rem;
 `;
 
 const StyledTopHeader = styled.div`
@@ -87,51 +77,22 @@ const StyledHeader = styled.h1`
   margin-top: 0;
 `;
 
-const StyledSubHeader = styled.h2`
-  margin-top: 0;
-`;
-
 const PatientDetail = () => {
   const navigate = useNavigate();
 
   const { slug } = useParams();
   const [patient, setPatient] = useState();
-  const [totalPages, setTotalPages] = useState(0);
-  const [rows, setRows] = useState();
-  const [filters, setFilters] = useState({
-    page: PAGINATION.PAGE,
-    pageSize: 3,
-    // pageSize: PAGINATION.PAGE_SIZE,
-  });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [modal, setModal] = useState(false);
-  const [modalMedication, setModalMedication] = useState(false);
 
   const handleClick = () => {
     setModal(!modal);
   };
 
-  const handleClickMedication = () => {
-    setModalMedication(!modalMedication);
-  };
-
   const handleEditClick = () => {
     navigate(`/patients/edit/${slug}`);
-  };
-
-  const handleCreate = async (values) => {
-    try {
-      const data = { ...values, patientId: patient.id };
-      await postMedication(data);
-      toast.success("Medication added!");
-      setFilters({ ...filters });
-    } catch (err) {
-      toast.error("Unable to add medication!");
-    } finally {
-      setModal(!modalMedication);
-    }
   };
 
   const handleDelete = async () => {
@@ -146,19 +107,11 @@ const PatientDetail = () => {
     }
   };
 
-  const handlePageChange = (e, data) => {
-    setFilters({ ...filters, patientId: patient.id, page: data.activePage });
-  };
-
   useEffect(() => {
     const fetch = async () => {
       try {
         const response = await getPatientBySlug(slug);
         setPatient(response);
-        // medications
-        const responseMedications = await getMedications({ ...filters, patientId: response.id });
-        setTotalPages(responseMedications.totalPages);
-        setRows(responseMedications.rows);
       } catch (e) {
         setError("Unable to fetch patient");
       } finally {
@@ -166,7 +119,7 @@ const PatientDetail = () => {
       }
     };
     fetch();
-  }, [slug, filters]);
+  }, [slug]);
 
   if (error) {
     return (
@@ -190,11 +143,6 @@ const PatientDetail = () => {
       </Breadcrumb>
       <Divider />
       <ModalDeletePatient show={modal} handleClick={handleClick} handleDelete={handleDelete} />
-      <MedicationModalCreate
-        show={modalMedication}
-        handleClick={handleClickMedication}
-        handleCreate={handleCreate}
-      />
       {patient && (
         <StyledContainer>
           <StyledTopContainer>
@@ -250,29 +198,11 @@ const PatientDetail = () => {
           </StyledTopContainer>
 
           <Divider fitted />
+          <Vitals patientId={patient.id} />
 
-          <StyledMedicationTopContainer>
-            <StyledSubHeader>Medications</StyledSubHeader>
-            <ButtonsContainer>
-              <Button size="small" onClick={handleClickMedication}>
-                <Icon name="plus square outline" />
-                Add Medication
-              </Button>
-            </ButtonsContainer>
-          </StyledMedicationTopContainer>
-          <StyledContainer>
-            <Segment basic>
-              <Loader isActive={loading} inverted />
-              <MedicationTable rows={rows} error={error} />
-              {totalPages > 1 && (
-              <Pagination
-                onPageChange={handlePageChange}
-                activePage={filters.page}
-                totalPages={totalPages}
-              />
-              )}
-            </Segment>
-          </StyledContainer>
+          <Divider fitted />
+          <MedicationPatient patientId={patient.id} />
+
         </StyledContainer>
       )}
 
