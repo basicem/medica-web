@@ -6,8 +6,12 @@ import {
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-import { getPatientBySlug, deletePatient } from "api/patients";
+import {
+  getPatientBySlug, deletePatient,
+} from "api/patients";
 import ModalDeletePatient from "components/Patients/PatientModalDelete";
+import PatientMedication from "components/Patients/PatientMedication";
+import Vitals from "components/Vitals/Vitals";
 
 const StyledContainer = styled(Container)`
   && {
@@ -22,6 +26,7 @@ const StyledTopContainer = styled.div`
   align-items: flex-start;
   flex-direction: row;
   gap: 5rem;
+  margin: 2rem;
 `;
 
 const StyledTopHeader = styled.div`
@@ -139,56 +144,66 @@ const PatientDetail = () => {
       <Divider />
       <ModalDeletePatient show={modal} handleClick={handleClick} handleDelete={handleDelete} />
       {patient && (
-        <StyledTopContainer>
-          <ImageContainer>
-            <Image
-              style={{ height: "auto", maxWidth: "300px" }}
-              label={{
-                color: "blue",
-                content: "Image",
-                icon: "image outline",
-                ribbon: true,
-              }}
-              src={encodeURI(Buffer.from(patient.image))}
-              size="medium"
-            />
-          </ImageContainer>
+        <StyledContainer>
+          <StyledTopContainer>
+            <ImageContainer>
+              <Image
+                style={{ height: "auto", maxWidth: "300px" }}
+                label={{
+                  color: "blue",
+                  content: "Image",
+                  icon: "image outline",
+                  ribbon: true,
+                }}
+                src={encodeURI(Buffer.from(patient.image))}
+                size="medium"
+              />
+            </ImageContainer>
 
-          <TopInfo>
-            <StyledTopHeader>
-              <NameHeader>{`${patient.firstName} ${patient.lastName}`}</NameHeader>
-              <ButtonsContainer>
-                <Button size="small" primary icon labelPosition="left" onClick={handleEditClick}>
-                  <Icon name="edit outline" />
-                  Edit
-                </Button>
-                <Button size="small" color="red" icon labelPosition="right" onClick={handleClick}>
-                  Delete
-                  <Icon name="trash alternate outline" />
-                </Button>
-              </ButtonsContainer>
-            </StyledTopHeader>
+            <TopInfo>
+              <StyledTopHeader>
+                <NameHeader>{`${patient.firstName} ${patient.lastName}`}</NameHeader>
+                <ButtonsContainer>
+                  <Button size="small" primary icon labelPosition="left" onClick={handleEditClick}>
+                    <Icon name="edit outline" />
+                    Edit
+                  </Button>
+                  <Button size="small" color="red" icon labelPosition="right" onClick={handleClick}>
+                    Delete
+                    <Icon name="trash alternate outline" />
+                  </Button>
+                </ButtonsContainer>
+              </StyledTopHeader>
 
-            <LabelInfo basic>
-              <Icon name="map marker alternate" />
-              {patient.city}
-            </LabelInfo>
+              <LabelInfo basic>
+                <Icon name="map marker alternate" />
+                {patient.city}
+              </LabelInfo>
 
-            <Divider fitted />
+              <Divider fitted />
 
-            <LabelContactInfo>CONTACT INFORMATION</LabelContactInfo>
+              <LabelContactInfo>CONTACT INFORMATION</LabelContactInfo>
 
-            <LabelName>Email:</LabelName>
-            <LabelInfo as="a">{patient.email}</LabelInfo>
+              <LabelName>Email:</LabelName>
+              <LabelInfo as="a">{patient.email}</LabelInfo>
 
-            <LabelName>Address:</LabelName>
-            <LabelInfo>{`${patient.address}, ${patient.city}`}</LabelInfo>
+              <LabelName>Address:</LabelName>
+              <LabelInfo>{`${patient.address}, ${patient.city}`}</LabelInfo>
 
-            <LabelName>Phone Number:</LabelName>
-            <LabelInfo>{patient.phoneNumber}</LabelInfo>
+              <LabelName>Phone Number:</LabelName>
+              <LabelInfo>{patient.phoneNumber}</LabelInfo>
 
-          </TopInfo>
-        </StyledTopContainer>
+            </TopInfo>
+
+          </StyledTopContainer>
+
+          <Divider fitted />
+          <Vitals patientId={patient.id} />
+
+          <Divider fitted />
+          <PatientMedication patientId={patient.id} />
+
+        </StyledContainer>
       )}
 
     </StyledContainer>

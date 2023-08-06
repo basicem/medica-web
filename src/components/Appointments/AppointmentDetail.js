@@ -162,7 +162,12 @@ const AppointmentDetail = () => {
       <Loader active={loading}>Loading</Loader>
       {appointment && patient && (
         <StyledContainer>
-          <ModalUpdateAppointmentStatus selected={status} show={modal} handleClick={handleClick} handleUpdate={handleUpdate} />
+          <ModalUpdateAppointmentStatus
+            selected={status}
+            show={modal}
+            handleClick={handleClick}
+            handleUpdate={handleUpdate}
+          />
           <StyledHeader>Appointment Details</StyledHeader>
           <Breadcrumb>
             <Breadcrumb.Section link><Link to="/appointments">Appointments</Link></Breadcrumb.Section>
