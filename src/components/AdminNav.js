@@ -24,11 +24,16 @@ const AdminNav = () => {
   const { activeItem } = state;
 
   return (
+
     <Menu pointing secondary>
       <Menu.Item
         name="users"
         active={activeItem === "users"}
-        to="/users"
+        onClick={handleItemClick}
+      />
+      <Menu.Item
+        name="vitals"
+        active={activeItem === "vitals"}
         onClick={handleItemClick}
       />
       <Menu.Menu position="right">

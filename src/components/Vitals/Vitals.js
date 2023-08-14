@@ -1,31 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Container, Icon, Segment,
+  Container, Icon, Segment, Card, Divider, Button,
 } from "semantic-ui-react";
 import styled from "styled-components";
+
+import { getVitals } from "api/vitals";
+import Loader from "components/Loader";
 
 const StyledContainer = styled(Container)`
   && {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: 2rem;}
+    padding-bottom: 2rem;
+  }
 `;
 
-const StyledSubHeader = styled.h2`
-  margin-top: 0;
-`;
-
-const StyledVitalsTopContainer = styled.div`
+const StyledTopContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  gap: 5rem;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 1rem 1rem 1rem;
 `;
 
-const Vitals = ({ patientId }) => {
+const StyledHeader = styled.h1`
+
+  margin:0
+`;
+
+const SmallerCard = styled(Card)`
+  &&& {
+    width: 15rem;
+  }
+`;
+
+const Vitals = () => {
   const [error, setError] = useState();
+  const [loading, setLoading] = useState();
+  const [vitals, setVitals] = useState();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        setLoading(true);
+        const response = await getVitals();
+        setVitals(response);
+      } catch (e) {
+        setError("Unable to fetch vitals");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetch();
+  }, []);
 
   if (error) {
     return (
@@ -40,9 +69,37 @@ const Vitals = ({ patientId }) => {
 
   return (
     <StyledContainer>
-      <StyledVitalsTopContainer>
-        <StyledSubHeader>Vitals</StyledSubHeader>
-      </StyledVitalsTopContainer>
+      <StyledTopContainer>
+        <StyledHeader>Vitals</StyledHeader>
+        <Button size="small">
+          <Icon name="plus square outline" />
+          Add Vital
+        </Button>
+      </StyledTopContainer>
+      <Divider />
+      <Loader isActive={loading} inverted />
+      {vitals && (
+        <Card.Group>
+          {vitals?.map((v) => (
+            <SmallerCard
+              color="teal"
+              header={v.name}
+              description={`Unit measurement: ${v.unitMeasurement}`}
+              extra={(
+                <>
+                  Lower limit:
+                  {" "}
+                  {v.lowerLimit}
+                  <br />
+                  Upper limit:
+                  {" "}
+                  {v.upperLimit}
+                </>
+            )}
+            />
+          ))}
+        </Card.Group>
+      )}
     </StyledContainer>
   );
 };

@@ -23,6 +23,7 @@ import Calendar from "./Appointments/Calendar";
 import AppointmentCreate from "./Appointments/AppointmentCreate";
 import AppointmentDetail from "./Appointments/AppointmentDetail";
 import AppointmentConfirmation from "./Appointments/AppointmentConfirmation";
+import Vitals from "./Vitals/Vitals";
 
 const Root = () => {
   const [initialized, setInitialized] = useState(false);
@@ -66,7 +67,7 @@ const Root = () => {
 
         <Routes>
 
-          {/* Not protected Routes, no tekn required */}
+          {/* Not protected Routes, no token required */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/home" element={<Home />} />
@@ -81,7 +82,7 @@ const Root = () => {
                 element={<Calendar />}
                 allowedRoles={[ROLES.DOCTOR]}
               />
-)}
+          )}
 
           />
           <Route
@@ -91,7 +92,7 @@ const Root = () => {
                 element={<AppointmentCreate />}
                 allowedRoles={[ROLES.DOCTOR]}
               />
-)}
+            )}
           />
 
           <Route
@@ -101,7 +102,7 @@ const Root = () => {
                 element={<AppointmentDetail />}
                 allowedRoles={[ROLES.DOCTOR]}
               />
-)}
+            )}
           />
 
           <Route
@@ -123,6 +124,11 @@ const Root = () => {
           <Route
             path="/users"
             element={<ProtectedRoute element={<UsersRoot />} allowedRoles={[ROLES.ADMIN]} />}
+          />
+
+          <Route
+            path="/vitals"
+            element={<ProtectedRoute element={<Vitals />} allowedRoles={[ROLES.ADMIN]} />}
           />
 
           {/* Route for forbidden access */}
