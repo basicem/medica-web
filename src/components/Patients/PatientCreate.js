@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { postPatient } from "api/patients";
 import InputField from "components/InputField";
 import placeholder from "images/placeholder.png";
-import convertToBase64 from "helpers/helpers";
+import { convertToBase64 } from "helpers/helpers";
 import AvatarField from "components/AvatarField";
 
 const StyledContainer = styled(Container)`

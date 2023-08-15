@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { editPatient, getPatientBySlug } from "api/patients";
 import InputField from "components/InputField";
 import placeholder from "images/placeholder.png";
-import convertToBase64 from "helpers/helpers";
+import { convertToBase64 } from "helpers/helpers";
 
 const StyledContainer = styled(Container)`
   && {

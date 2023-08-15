@@ -7,6 +7,7 @@ import debounce from "lodash.debounce";
 import { toast } from "react-toastify";
 
 import { editVital, getVitals, postVital } from "api/vitals";
+import { parseErrorRespons } from "helpers/helpers";
 import VitalsModalCreate from "./VitalsModalCreate";
 import VitalsModalEdit from "./VitalsModalEdit";
 
@@ -89,7 +90,8 @@ const Vitals = () => {
       toast.success("Vital added!");
       debouncedSearch("");
     } catch (err) {
-      toast.error("Unable to add vital!");
+      const message = parseErrorRespons(err, "Unable to add vital!");
+      toast.error(message);
     } finally {
       setShowCreate(!showCreate);
     }
@@ -105,7 +107,8 @@ const Vitals = () => {
       toast.success("Vital updated!");
       debouncedSearch("");
     } catch (err) {
-      toast.error("Unable to update vital!");
+      const message = parseErrorRespons(err, "Unable to update vital!");
+      toast.error(message);
     } finally {
       handleClickEdit(!showEdit);
     }
