@@ -19,23 +19,18 @@ const PatientMedicationTable = ({
 }) => {
   if (error) {
     return (
-      <StyledContainer>
-        <Segment inverted color="red" secondary>
-          <Icon name="times circle outline" />
-          { error }
-        </Segment>
-      </StyledContainer>
+      <Segment inverted color="red" secondary>
+        <Icon name="times circle outline" />
+        { error }
+      </Segment>
     );
   }
 
   if (rows === null || rows?.length === 0) {
     return (
-      <StyledContainer>
-        <Segment inverted color="blue" tertiary>
-          <Icon name="pills" />
-          Medications not found!
-        </Segment>
-      </StyledContainer>
+      <Segment secondary>
+        Medications not found!
+      </Segment>
     );
   }
 
