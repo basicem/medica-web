@@ -121,6 +121,7 @@ const Root = () => {
             path="/patients/edit/:slug"
             element={<ProtectedRoute element={<PatientEdit />} allowedRoles={[ROLES.DOCTOR]} />}
           />
+
           <Route
             path="/users"
             element={<ProtectedRoute element={<UsersRoot />} allowedRoles={[ROLES.ADMIN]} />}

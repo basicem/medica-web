@@ -52,13 +52,13 @@ const initialValues = {
 
 const doseOptions = Object.keys(DOSE_MEASUREMENT).map((key) => ({
   key,
-  value: key,
+  value: DOSE_MEASUREMENT[key].id,
   text: DOSE_MEASUREMENT[key],
 }));
 
 const frequencyOptions = Object.keys(FREQUENCY).map((key) => ({
   key,
-  value: key,
+  value: FREQUENCY[key].id,
   text: FREQUENCY[key],
 }));
 
