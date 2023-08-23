@@ -32,7 +32,7 @@ const InputSelect = ({
     <StyledDiv>
       <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
       <select {...field} {...props}>
-        <option value="" disabled selected>
+        <option value="" disabled defaultValue>
           {placeholder}
         </option>
         {options.map((option) => (

@@ -107,11 +107,11 @@ const PatientVitals = ({ patientId }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [patientId]);
 
   useEffect(() => {
     fetchVitals();
-  }, []);
+  }, [fetchVitals]);
 
   const handleClick = () => {
     setShow(!show);
