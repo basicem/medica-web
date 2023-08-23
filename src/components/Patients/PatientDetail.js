@@ -11,14 +11,15 @@ import {
 } from "api/patients";
 import ModalDeletePatient from "components/Patients/PatientModalDelete";
 import PatientMedication from "components/Patients/PatientMedication";
-import Vitals from "components/Vitals/Vitals";
+import PatientVitals from "components/Patients/PatientVitals";
 
 const StyledContainer = styled(Container)`
   && {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: 2rem;}
+    padding-bottom: 2rem;
+  }
 `;
 
 const StyledTopContainer = styled.div`
@@ -198,7 +199,7 @@ const PatientDetail = () => {
           </StyledTopContainer>
 
           <Divider fitted />
-          <Vitals patientId={patient.id} />
+          <PatientVitals patientId={patient.id} />
 
           <Divider fitted />
           <PatientMedication patientId={patient.id} />

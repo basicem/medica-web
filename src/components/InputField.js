@@ -3,8 +3,13 @@ import { useField } from "formik";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-    width: 100%;
-    margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.5rem;
 `;
 
 const StyledLabel = styled.label`

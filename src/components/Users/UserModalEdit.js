@@ -9,6 +9,7 @@ import { Formik } from "formik";
 
 import InputSelect from "components/InputSelect";
 import InputCheckbox from "components/InputCheckbox";
+import { ROLES } from "utils/constants";
 import { useUsers } from "./UsersContext";
 
 const StyledTopContainer = styled.div`
@@ -38,6 +39,12 @@ const validationSchema = Yup.object({
     .required("Required")
     .oneOf(["Admin", "Doctor"]),
 });
+
+const roleOptions = Object.keys(ROLES).map((key) => ({
+  key,
+  value: key,
+  text: ROLES[key],
+}));
 
 function UserModalEdit() {
   const {
@@ -96,11 +103,9 @@ function UserModalEdit() {
                   <InputSelect
                     label="Role"
                     name="role"
-                  >
-                    <option value="">Please select role</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Doctor">Doctor</option>
-                  </InputSelect>
+                    options={roleOptions}
+                    placeholder="Please select role"
+                  />
 
                   <InputCheckbox checked={values.isActive} name="isActive" onChange={(e, data) => handleChange(data, setFieldValue)}>
                     Active

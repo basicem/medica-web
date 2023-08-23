@@ -106,6 +106,15 @@ const validationSchema = Yup.object({
   }),
 });
 
+const optionsArray = [
+  { value: "15 minutes", text: "15 minutes" },
+  { value: "30 minutes", text: "30 minutes" },
+  { value: "45 minutes", text: "45 minutes" },
+  { value: "60 minutes", text: "60 minutes" },
+  { value: "90 minutes", text: "90 minutes" },
+  { value: "120 minutes", text: "120 minutes" },
+];
+
 const AppointmentCreate = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -291,15 +300,9 @@ const AppointmentCreate = () => {
                 <InputSelect
                   label="Duration"
                   name="duration"
-                >
-                  <option value="">Please select duration</option>
-                  <option value="15 minutes">15 minutes</option>
-                  <option value="30 minutes">30 minutes</option>
-                  <option value="45 minutes">45 minutes</option>
-                  <option value="60 minutes">60 minutes</option>
-                  <option value="90 minutes">90 minutes</option>
-                  <option value="120 minutes">120 minutes</option>
-                </InputSelect>
+                  options={optionsArray}
+                  placeholder="Please select duration"
+                />
               </StyledDiv>
             </StyledTopContainer>
             <StyledButton primary style={{ width: "120px" }} type="submit">Create</StyledButton>

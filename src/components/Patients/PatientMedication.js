@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container, Icon, Button, Segment, Loader, Pagination,
+  Container, Icon, Button, Segment, Pagination,
 } from "semantic-ui-react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ import { PAGINATION } from "utils/constants";
 import {
   getMedications, postMedication, deleteMedication, editMedication,
 } from "api/patients";
+import Loader from "components/Loader";
 import PatientMedicationTable from "./PatientMedicationTable";
 import PatientMedicationModalCreate from "./PatientMedicationModalCreate";
 
@@ -18,7 +19,8 @@ const StyledContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: 2rem;}
+    padding-bottom: 2rem;
+  }
 `;
 
 const StyledMedicationTopContainer = styled.div`

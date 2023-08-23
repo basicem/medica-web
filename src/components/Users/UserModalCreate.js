@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import InputField from "components/InputField";
 import InputSelect from "components/InputSelect";
 import InputCheckbox from "components/InputCheckbox";
+import { ROLES } from "utils/constants";
 import { useUsers } from "./UsersContext";
 
 const StyledTopContainer = styled.div`
@@ -33,6 +34,12 @@ const ButtonGroup = styled.div`
   padding-bottom: 1.5rem;
   float: right;
 `;
+
+const roleOptions = Object.keys(ROLES).map((key) => ({
+  key,
+  value: key,
+  text: ROLES[key],
+}));
 
 const initialValues = {
   firstName: "",
@@ -127,11 +134,9 @@ function UserModalCreate() {
                   <InputSelect
                     label="Role"
                     name="role"
-                  >
-                    <option value="">Please select role</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Doctor">Doctor</option>
-                  </InputSelect>
+                    options={roleOptions}
+                    placeholder="Please select role"
+                  />
 
                   <InputCheckbox name="isActive" onChange={(e, data) => handleChange(data, setFieldValue)}>
                     Active

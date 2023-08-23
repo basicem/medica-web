@@ -54,3 +54,18 @@ export const editMedication = async (id, medicationId, data) => {
   const response = await API.put(`/api/patients/${id}/medications/${medicationId}`, data);
   return response.data;
 };
+
+export const getVitals = async (id) => {
+  const response = await API.get(`/api/patients/${id}/vitals`);
+  return response.data;
+};
+
+export const postVital = async (id, data) => {
+  const response = await API.post(`/api/patients/${id}/vitals`, data);
+  return response.data;
+};
+
+export const getVitalHistory = async (id, vitalId, params) => {
+  const response = await API.get(`/api/patients/${id}/vitals/${vitalId}`, { params });
+  return response.data;
+};
