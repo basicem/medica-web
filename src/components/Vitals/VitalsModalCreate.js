@@ -62,7 +62,7 @@ const VitalsModalCreate = ({ show, handleClick, handleCreate }) => {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    handleCreate(values);
+    await handleCreate(values);
     handleClick();
     setLoading(false);
   };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Container, Icon, Segment, Card, Button,
 } from "semantic-ui-react";
@@ -92,26 +92,26 @@ const PatientVitals = ({ patientId }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState();
   const [loading, setLoading] = useState();
-  const [reload, setReload] = useState(false);
   const [patientVitals, setPatientVitals] = useState([]);
 
   const [showDetails, setShowDetails] = useState(false);
   const [selectedVital, setSelectedVital] = useState(null);
 
+  const fetchVitals = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await getVitals(patientId);
+      setPatientVitals(response);
+    } catch (e) {
+      setError("Unable to fetch vitals");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        setLoading(true);
-        const response = await getVitals(patientId);
-        setPatientVitals(response);
-      } catch (e) {
-        setError("Unable to fetch vitals");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [reload]);
+    fetchVitals();
+  }, []);
 
   const handleClick = () => {
     setShow(!show);
@@ -123,7 +123,7 @@ const PatientVitals = ({ patientId }) => {
         vitalId: values.vital,
         value: values.value,
       });
-      setReload(!reload);
+      fetchVitals();
       toast.success("Vital added!");
     } catch (err) {
       toast.error("Unable to add vital!");
@@ -193,12 +193,12 @@ const PatientVitals = ({ patientId }) => {
       />
       {showDetails
       && (
-      <PatientVitalModalDetail
-        show={showDetails}
-        patientId={patientId}
-        vitalId={selectedVital}
-        handleClose={handleClose}
-      />
+        <PatientVitalModalDetail
+          show={showDetails}
+          patientId={patientId}
+          vitalId={selectedVital}
+          handleClose={handleClose}
+        />
       )}
     </StyledContainer>
   );

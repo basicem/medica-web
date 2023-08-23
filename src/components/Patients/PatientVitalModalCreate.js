@@ -52,49 +52,50 @@ const initialValues = {
 const PatientVitalModalCreate = ({ show, handleClick, handleCreate }) => {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
-  const [vitals, setVitals] = useState([]);
-  let vitalOptions;
-  let vitalValues;
-  let validationSchema;
+
+  const [formConfig, setFormConfig] = useState({
+    vitalOptions: [],
+    validationSchema: null,
+  });
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchVitals = async () => {
       try {
         setLoading(true);
-        const filters = {
-          search: "",
-        };
-        const response = await getVitals(filters);
+        const response = await getVitals({ search: "" });
 
-        vitalOptions = Object.keys(response).map((key) => ({
+        const newVitalOptions = Object.keys(response).map((key) => ({
           key,
           value: response[key].id,
           text: response[key].name,
         }));
 
-        vitalValues = vitalOptions.map((option) => option.text);
-
-        validationSchema = Yup.object({
-          vital: Yup.string().oneOf(vitalValues).required("Please select vital"),
+        const validationSchema = Yup.object({
+          vital: Yup.string().oneOf(newVitalOptions.map((option) => option.value.toString())).required("Please select vital"),
           value: Yup.string()
-            .typeError("Name value must be a string")
+            .typeError("Value value must be a string")
             .max(15, "Must be 15 characters or less")
             .required("Required"),
         });
 
-        setVitals(vitalOptions);
+        setFormConfig(
+          {
+            vitalOptions: newVitalOptions,
+            validationSchema,
+          },
+        );
       } catch (e) {
         setError("Unable to fetch vitals");
       } finally {
         setLoading(false);
       }
     };
-    fetch();
+    fetchVitals();
   }, []);
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    handleCreate(values);
+    await handleCreate(values);
     handleClick();
     setLoading(false);
   };
@@ -117,9 +118,10 @@ const PatientVitalModalCreate = ({ show, handleClick, handleCreate }) => {
     >
       <Modal.Header>Add Vital</Modal.Header>
       <Modal.Content>
+        {formConfig && (
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={formConfig.validationSchema}
           onSubmit={handleSubmit}
         >
           {() => (
@@ -129,7 +131,7 @@ const PatientVitalModalCreate = ({ show, handleClick, handleCreate }) => {
                   <InputSelect
                     label="Vitals"
                     name="vital"
-                    options={vitals}
+                    options={formConfig.vitalOptions}
                     placeholder="Please select vital"
                   />
                   <InputField
@@ -157,6 +159,7 @@ const PatientVitalModalCreate = ({ show, handleClick, handleCreate }) => {
             </Form>
           )}
         </Formik>
+        )}
       </Modal.Content>
     </Modal>
   );
