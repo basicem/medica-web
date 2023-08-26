@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Container, Divider, Breadcrumb, Dropdown, FormField, Segment, Icon,
+  Container, Divider, Breadcrumb, Dropdown, FormField, Segment, Icon, Message,
 } from "semantic-ui-react";
 import { Form, SubmitButton } from "formik-semantic-ui-react";
 import { Formik, Field } from "formik";
@@ -88,6 +88,12 @@ const SubheaderText = styled.div`
   font-weight: normal;
 `;
 
+const RemindersTop = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 1rem;
+`;
+
 const validationSchema = Yup.object({
   title: Yup.string().nullable().required("Required"),
   description: Yup.string().nullable().required("Required"),
@@ -100,6 +106,8 @@ const validationSchema = Yup.object({
     .required("Required")
     .oneOf(["15 minutes", "30 minutes", "45 minutes", "60 minutes", "90 minutes", "120 minutes"]),
   isVirtual: Yup.boolean(),
+  dayBeforeAppointment24Hours: Yup.boolean(),
+  dayOfAppointment: Yup.boolean(),
   link: Yup.string().when("isVirtual", {
     is: true,
     then: Yup.string().url("Invalid URL").required("Meeting link is required"),
@@ -133,12 +141,53 @@ const AppointmentCreate = () => {
     time: "",
     duration: "",
     isVirtual: false,
+    dayBeforeAppointment24Hours: false,
+    dayOfAppointment: false,
     link: "",
     isConfirmed: false,
   };
 
+  const getReminders = (values) => {
+    const reminders = [];
+    const [hours, minutes] = values.time.split(":");
+    const appointmentDate = new Date(date);
+    appointmentDate.setHours(parseInt(hours, 10));
+    appointmentDate.setMinutes(parseInt(minutes, 10));
+
+    // 24 hours before appointment
+    if (values.dayBeforeAppointment24Hours) {
+      const combinedDateTimeReminder = new Date(date);
+      combinedDateTimeReminder.setDate(combinedDateTimeReminder.getDate() - 1);
+      combinedDateTimeReminder.setHours(parseInt(hours, 10));
+      combinedDateTimeReminder.setMinutes(parseInt(minutes, 10));
+
+      const timeDifference = appointmentDate - combinedDateTimeReminder;
+
+      const minutesDifference = timeDifference / (1000 * 60);
+
+      reminders.push(minutesDifference);
+    }
+
+    // 08:00 day of appointment
+    if (values.dayOfAppointment) {
+      const combinedDateTimeReminder = new Date(date);
+      combinedDateTimeReminder.setHours(parseInt("08", 10));
+      combinedDateTimeReminder.setMinutes(parseInt("00", 10));
+
+      const timeDifference = appointmentDate - combinedDateTimeReminder;
+
+      const minutesDifference = timeDifference / (1000 * 60);
+
+      reminders.push(minutesDifference);
+    }
+
+    return reminders;
+  };
+
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      const reminders = getReminders(values);
+
       await postAppointment({
         title: values.title,
         description: values.description,
@@ -149,6 +198,7 @@ const AppointmentCreate = () => {
         isVirtual: values.isVirtual,
         link: values.link,
         status: STATUS.PENDING,
+        reminders,
       });
       toast.success("New appointment added!");
       navigate("/appointments/");
@@ -197,7 +247,7 @@ const AppointmentCreate = () => {
   };
 
   const handleChange = async (data, setFieldValue) => {
-    setFieldValue("isVirtual", data.checked);
+    setFieldValue(data.name, data.checked);
   };
 
   if (error) {
@@ -270,16 +320,18 @@ const AppointmentCreate = () => {
                   </Field>
                 </StyledDivSearch>
 
-                <InputCheckbox name="isVirtual" onChange={(e, data) => handleChange(data, setFieldValue)}>
-                  Virtual
+                <RemindersTop>Choose reminders</RemindersTop>
+                <InputCheckbox name="dayBeforeAppointment24Hours" onChange={(e, data) => handleChange(data, setFieldValue)}>
+                  24 Hours Before Appointment
                 </InputCheckbox>
 
-                {values.isVirtual && (
-                  <InputLink
-                    name="link"
-                    value={values.link}
-                  />
-                )}
+                <InputCheckbox name="dayOfAppointment" onChange={(e, data) => handleChange(data, setFieldValue)}>
+                  08:00 Day Of Appointment
+                </InputCheckbox>
+
+                <Message info>
+                  On checked time, reminder emails will be sent!
+                </Message>
 
               </StyledDiv>
               <StyledDiv>
@@ -303,6 +355,17 @@ const AppointmentCreate = () => {
                   options={optionsArray}
                   placeholder="Please select duration"
                 />
+
+                <InputCheckbox name="isVirtual" onChange={(e, data) => handleChange(data, setFieldValue)}>
+                  Virtual
+                </InputCheckbox>
+
+                {values.isVirtual && (
+                  <InputLink
+                    name="link"
+                    value={values.link}
+                  />
+                )}
               </StyledDiv>
             </StyledTopContainer>
             <StyledButton primary style={{ width: "120px" }} type="submit">Create</StyledButton>
