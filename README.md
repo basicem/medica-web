@@ -13,24 +13,45 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 <h2>Patients</h2>
 
 Patients:
-![image](https://github.com/basicem/medica-web/assets/96090279/8aebb2cb-c7b1-4421-9488-9c62e9782a94)
+![image](https://github.com/basicem/medica-web/assets/96090279/2b35fd92-0c69-46f3-9808-804e3de6fbab)
 
-![image](https://github.com/basicem/medica-web/assets/96090279/6ec95c7f-6e85-4c63-bdb9-88a87c3b78f1)
+![image](https://github.com/basicem/medica-web/assets/96090279/7e0b927a-542b-4a3f-bb94-fb9cf938f7be)
 
 
 Patient Profile:
-![image](https://github.com/basicem/medica-web/assets/96090279/15aae64d-8042-4caf-9db8-2c1d7690c46b)
+![image](https://github.com/basicem/medica-web/assets/96090279/d952f0da-ed96-4e09-8580-a13095594f80)
+
+![image](https://github.com/basicem/medica-web/assets/96090279/c5f20794-b684-4c6a-a602-217e8d84c02f)
+
+Patient Vitals Detail:
+
+![image](https://github.com/basicem/medica-web/assets/96090279/52e5e397-bb97-4463-a082-55f04bd4a07e)
+
+Patient Vitals Add:
+
+![image](https://github.com/basicem/medica-web/assets/96090279/32a01de7-8fb4-4b76-a2f0-17e15f9e7faa)
+
+Patient Medications Add: 
+
+![image](https://github.com/basicem/medica-web/assets/96090279/70bba349-fcf6-4fa1-8e94-edea765bb3f5)
+
+
+
+
 
 Patient Edit:
-![image](https://github.com/basicem/medica-web/assets/96090279/063767f3-cc31-45e3-ab1e-24832fd078e2)
+![image](https://github.com/basicem/medica-web/assets/96090279/17b7a8dc-728c-466b-bb2c-9245571b943d)
+
 
 Patient Create:
-![image](https://github.com/basicem/medica-web/assets/96090279/f0fc2396-53fd-4dad-911c-d7481b1bb2c3)
+![image](https://github.com/basicem/medica-web/assets/96090279/e2bd47d3-4273-4300-b3d3-05f4d939f210)
+
 
 Patient Delete:
-![image](https://github.com/basicem/medica-web/assets/96090279/38a36bfd-b6a0-481d-8b12-89bd3c7fd22a)
+![image](https://github.com/basicem/medica-web/assets/96090279/4c98617d-bf2a-44ea-a2f2-89c9c0734764)
 
-![image](https://github.com/basicem/medica-web/assets/96090279/ec6d34a1-ba74-4477-bcc2-bc4497f8c4b1)
+![image](https://github.com/basicem/medica-web/assets/96090279/6b03409a-5297-4ebc-a59a-3d955185751e)
+
 
 <h2>Users</h2>
 
