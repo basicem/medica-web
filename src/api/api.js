@@ -1,7 +1,10 @@
 import axios from "axios";
 
+const apiPort = process.env.REACT_APP_API_PORT;
+const apiBaseUrl = `http://localhost:${apiPort}`;
+
 const API = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: apiBaseUrl,
 });
 
 // Interceptor for adding JWT token to the request headers
