@@ -37,9 +37,11 @@ const ButtonGroup = styled.div`
 
 const roleOptions = Object.keys(ROLES).map((key) => ({
   key,
-  value: key,
+  value: ROLES[key].id,
   text: ROLES[key],
 }));
+
+const roleValues = roleOptions.map((option) => option.text);
 
 const initialValues = {
   firstName: "",
@@ -63,9 +65,7 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .min(8, "Must be 8 characters or more")
     .required("Required"),
-  role: Yup.string()
-    .required("Required")
-    .oneOf(["Admin", "Doctor"]),
+  role: Yup.string().oneOf(roleValues).required("Please select role"),
 });
 
 function UserModalCreate() {
@@ -74,6 +74,7 @@ function UserModalCreate() {
   } = useUsers();
 
   const handleSubmit = async (values) => {
+    console.log("Values are: ", values);
     handleCreateUser(values);
   };
 

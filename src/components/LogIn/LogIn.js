@@ -85,7 +85,7 @@ function LogIn() {
       {() => (
         <StyledTopContainer>
           <Form>
-            <h1>Log-in to your account</h1>
+            <h1>Login to your account</h1>
             <TopInfo>
 
               <InputField
